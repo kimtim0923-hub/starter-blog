@@ -37,58 +37,63 @@ function buildPresetBlock(p: Preset): string {
   return `\n\n[필자 스타일]\n${parts.join('\n')}\n위 스타일을 반드시 반영하라.`
 }
 
+interface Suggestion {
+  title: string
+  pick: string[]  // 이 제목 클릭 시 자동 선택할 키워드 매칭어
+}
+
 const TOPICS = [
   {
     id: 1, label: '소상공인·자영업자 총정리',
     focus: ['소상공인', '자영업', '사업자', '재창업', '경영환경', 'LED간판', '온라인쇼핑몰', '가업승계'],
     suggestions: [
-      '폐업 후 재창업, 정부가 돈 준다고? 소상공인 재기지원 총정리',
-      'LED간판 무료로 바꾸는 법 — 소상공인 간판지원사업',
-      '가게 임대료 부담 줄이는 정부지원금 3가지',
-      '가업승계 하려면 꼭 알아야 할 지원금 정리',
-    ],
+      { title: '폐업 후 재창업, 정부가 돈 준다고? 소상공인 재기지원 총정리', pick: ['재기', '재창업', '사업화자금'] },
+      { title: 'LED간판 무료로 바꾸는 법 — 소상공인 간판지원사업', pick: ['LED간판'] },
+      { title: '가게 임대료 부담 줄이는 정부지원금 3가지', pick: ['임대료', '경영환경'] },
+      { title: '가업승계 하려면 꼭 알아야 할 지원금 정리', pick: ['가업승계'] },
+    ] as Suggestion[],
   },
   {
     id: 2, label: '편의점·카페·음식점 사장님',
     focus: ['소상공인', '임대료', 'LED간판', '경영환경개선', '직업전환', '자녀돌봄'],
     suggestions: [
-      '카페 사장님이 놓치고 있는 정부지원금 5가지',
-      '음식점 경영환경개선 지원금, 신청 안 하면 손해',
-      '자영업 접고 재취업? 직업전환 지원금 받는 법',
-      '자영업자 자녀돌봄 지원 — 이런 것도 된다고?',
-    ],
+      { title: '카페 사장님이 놓치고 있는 정부지원금 5가지', pick: ['소상공인', '경영환경', 'LED간판'] },
+      { title: '음식점 경영환경개선 지원금, 신청 안 하면 손해', pick: ['경영환경'] },
+      { title: '자영업 접고 재취업? 직업전환 지원금 받는 법', pick: ['직업전환'] },
+      { title: '자영업자 자녀돌봄 지원 — 이런 것도 된다고?', pick: ['자녀돌봄'] },
+    ] as Suggestion[],
   },
   {
     id: 3, label: '청년 지원금 완벽 가이드',
     focus: ['청년', '월세', '전월세', '면접수당', '인턴십', '중개수수료', '문화복지', '학자금'],
     suggestions: [
-      '청년 월세 지원금, 신청 조건부터 입금까지 총정리',
-      '면접볼 때 교통비 받는 법 — 청년 면접수당 신청',
-      '부동산 중개수수료 돌려받는 청년 지원금',
-      '인턴만 해도 월 180만원? 청년 인턴십 지원금 정리',
-      '농어촌 출신이면 무이자 학자금 대출 가능',
-    ],
+      { title: '청년 월세 지원금, 신청 조건부터 입금까지 총정리', pick: ['월세', '전월세'] },
+      { title: '면접볼 때 교통비 받는 법 — 청년 면접수당 신청', pick: ['면접수당'] },
+      { title: '부동산 중개수수료 돌려받는 청년 지원금', pick: ['중개수수료'] },
+      { title: '인턴만 해도 월 180만원? 청년 인턴십 지원금 정리', pick: ['인턴십', '인턴'] },
+      { title: '농어촌 출신이면 무이자 학자금 대출 가능', pick: ['학자금'] },
+    ] as Suggestion[],
   },
   {
     id: 4, label: '긴급복지·에너지바우처·월세지원',
     focus: ['긴급복지', '에너지바우처', '월세', '의료급여', '보철구', '출산비', '전세자금'],
     suggestions: [
-      '당장 급한데 돈이 없다면 — 긴급복지지원 신청법',
-      '에너지바우처 2년 안 쓰면 소멸! 지금 확인하세요',
-      '전세 보증금 날렸을 때 받을 수 있는 긴급 대출',
-      '출산비 중복 수령 가능한 지원금 조합 정리',
-    ],
+      { title: '당장 급한데 돈이 없다면 — 긴급복지지원 신청법', pick: ['긴급복지'] },
+      { title: '에너지바우처 2년 안 쓰면 소멸! 지금 확인하세요', pick: ['에너지바우처'] },
+      { title: '전세 보증금 날렸을 때 받을 수 있는 긴급 대출', pick: ['전세자금', '전세'] },
+      { title: '출산비 중복 수령 가능한 지원금 조합 정리', pick: ['출산', '출산비'] },
+    ] as Suggestion[],
   },
   {
     id: 5, label: '숨겨진 정부지원금 총정리',
     focus: ['우체국', '엄마보험', 'SRT', '임산부', '공동육아', '가업승계', '시제품', '미환급금', '다자녀', '다태아'],
     suggestions: [
-      '우체국 무료 엄마보험, 임신하면 무조건 가입하세요',
-      'SRT 임산부 할인 — KTX보다 싸게 타는 법',
-      '주택대출 보증료 미환급금, 잠자는 내 돈 찾기',
-      '다자녀 가정 감면 혜택 총정리 — 조례별 비교',
-      '공동육아나눔터 무료 이용법, 동네에 있는지 확인',
-    ],
+      { title: '우체국 무료 엄마보험, 임신하면 무조건 가입하세요', pick: ['우체국', '엄마보험'] },
+      { title: 'SRT 임산부 할인 — KTX보다 싸게 타는 법', pick: ['SRT', '임산부'] },
+      { title: '주택대출 보증료 미환급금, 잠자는 내 돈 찾기', pick: ['미환급금'] },
+      { title: '다자녀 가정 감면 혜택 총정리 — 조례별 비교', pick: ['다자녀', '다태아'] },
+      { title: '공동육아나눔터 무료 이용법, 동네에 있는지 확인', pick: ['공동육아'] },
+    ] as Suggestion[],
   },
 ]
 
@@ -251,6 +256,31 @@ export default function WriterPanel({ keywords }: { keywords: Keyword[] }) {
     setPickedIndexes(new Set())
   }
 
+  // 제목 제안 클릭 → 주제 선택 + 관련 키워드 자동 체크
+  const handleSuggestionClick = (topic: typeof TOPICS[0], suggestion: Suggestion) => {
+    setSelectedTopic(topic)
+    setDraft('')
+    setFeedback('')
+    setMergedText('')
+    setFinalText('')
+
+    const matched = keywords.filter(kw =>
+      topic.focus.some(f => kw.keyword.includes(f))
+    )
+    const kwList = matched.length >= 3 ? matched : keywords
+    setMatchedKeywords(kwList)
+
+    // suggestion.pick에 매칭되는 키워드만 자동 선택
+    const autoSelected = new Set<number>()
+    kwList.forEach((kw, i) => {
+      if (suggestion.pick.some(p => kw.keyword.includes(p))) {
+        autoSelected.add(i)
+      }
+    })
+    setPickedIndexes(autoSelected)
+    setStep('picking')
+  }
+
   // 2단계: 초안 생성
   const handleGenerateDraft = async () => {
     if (!selectedTopic || pickedIndexes.size === 0) return
@@ -374,13 +404,13 @@ ${sourceLines}
                     <span className="text-xs text-amber-600 bg-amber-100 px-2 py-0.5 rounded-full shrink-0">{t.count}개 소스</span>
                   </button>
                   <div className="ml-3 mt-1 space-y-1">
-                    {t.suggestions.map((title, i) => (
+                    {t.suggestions.map((sg, i) => (
                       <button
                         key={i}
-                        onClick={() => handleTopicSelect(t)}
+                        onClick={() => handleSuggestionClick(t, sg)}
                         className="w-full text-left px-2 py-1 text-xs text-gray-500 hover:text-amber-700 hover:bg-white/50 rounded transition-colors"
                       >
-                        &rarr; {title}
+                        &rarr; {sg.title}
                       </button>
                     ))}
                   </div>
