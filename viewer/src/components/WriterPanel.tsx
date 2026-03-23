@@ -19,7 +19,11 @@ const DRAFT_SYSTEM = `구조와 정보 중심 초안. SEO 규칙 적용.
 H2 소제목 검색 의도 키워드 포함.
 첫 문단 100자 안에 핵심 키워드 삽입. 1500자 내외.
 각 지원금마다: 지원금명, 대상, 금액, 신청방법을 표나 리스트로 정리.
-마크다운 형식.`
+마크다운 형식.
+위 출처 데이터를 근거로 글을 써라.
+각 지원금 정보 옆에 반드시 출처 기관명을 표기하라.
+URL이 있는 경우 글 하단에 참고 출처 목록으로 정리하라.
+없는 정보는 절대 지어내지 마라.`
 
 const MERGE_SYSTEM = `친한 선배 컨설턴트 톤. ~습니다 금지. ~해요 ~거든요 ~잖아요 구어체.
 첫 문장 공감 후킹. 숫자와 금액 포함. 2500자 이상.
@@ -39,16 +43,22 @@ type Step = 'topic' | 'drafting' | 'feedback' | 'merging' | 'merged' | 'polishin
 
 // ── API helper ──
 
+function getDatePrefix(): string {
+  const today = new Date().toLocaleDateString('ko-KR', { year: 'numeric', month: 'long' })
+  return `오늘 날짜는 ${today}이다. 글에 년도나 날짜가 들어갈 때는 반드시 이 날짜 기준으로 써라. 과거 년도를 절대 쓰지 마라.\n\n`
+}
+
 async function streamClaude(
   system: string,
   userMessage: string,
   onChunk: (text: string) => void,
   onDone: () => void,
 ) {
+  const fullSystem = getDatePrefix() + system
   const res = await fetch('/api/chat', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ system, message: userMessage, stream: true }),
+    body: JSON.stringify({ system: fullSystem, message: userMessage, stream: true }),
   })
 
   if (!res.ok) {
@@ -124,7 +134,11 @@ export default function WriterPanel({ keywords }: { keywords: Keyword[] }) {
     )
     const data = relevant.length >= 3 ? relevant : keywords
 
-    const userMsg = `주제: ${selectedTopic.label}\n\n근거 데이터 (${data.length}건):\n${JSON.stringify(data, null, 2)}\n\n위 데이터를 근거로 총정리형 블로그 초안을 마크다운으로 작성해주세요.`
+    const sourceLines = data.map(kw =>
+      `- 기관: ${kw.agency || '미상'} | 키워드: ${kw.keyword} | 날짜: ${kw.date || '미상'} | URL: ${kw.source_url || '없음'}`
+    ).join('\n')
+
+    const userMsg = `주제: ${selectedTopic.label}\n\n[출처 데이터] (${data.length}건)\n${sourceLines}\n\n위 출처 데이터를 근거로 총정리형 블로그 초안을 마크다운으로 작성해주세요.`
 
     await streamClaude(DRAFT_SYSTEM, userMsg,
       (text) => { setDraft(prev => prev + text); setTimeout(scrollToBottom, 10) },
