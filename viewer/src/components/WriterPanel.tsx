@@ -143,7 +143,23 @@ export default function WriterPanel({ keywords }: { keywords: Keyword[] }) {
       `- 기관: ${kw.agency || '미상'} | 키워드: ${kw.keyword} | 날짜: ${kw.date || '미상'} | URL: ${kw.source_url || '없음'}`
     ).join('\n')
 
-    const userMsg = `주제: ${selectedTopic.label}\n\n[출처 데이터] (${data.length}건)\n${sourceLines}\n\n위 출처 데이터를 근거로 총정리형 블로그 초안을 마크다운으로 작성해주세요.`
+    // 유효한 URL만 추출해서 참고출처 예시 생성
+    const refLines = data
+      .filter(kw => kw.source_url && kw.source_url !== '없음')
+      .map(kw => `- [${kw.keyword}](${kw.source_url}) — ${kw.agency || '미상'}`)
+      .join('\n')
+
+    const userMsg = `주제: ${selectedTopic.label}
+
+[출처 데이터] (${data.length}건)
+${sourceLines}
+
+위 출처 데이터를 근거로 총정리형 블로그 초안을 마크다운으로 작성해주세요.
+
+글 맨 하단에 반드시 아래 형식 그대로 "## 참고 출처" 섹션을 붙여라. URL을 절대 생략하지 마라:
+
+## 참고 출처
+${refLines}`
 
     await streamClaude(DRAFT_SYSTEM, userMsg,
       (text) => { setDraft(prev => prev + text); setTimeout(scrollToBottom, 10) },
