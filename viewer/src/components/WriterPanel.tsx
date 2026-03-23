@@ -476,6 +476,13 @@ ${sourceLines}
           )}
         </section>
 
+        {/* 디버그: keywords 로드 확인 */}
+        {keywords.length === 0 && (
+          <div className="mb-4 p-3 bg-yellow-50 border border-yellow-200 rounded text-xs text-yellow-700">
+            키워드 데이터를 불러오는 중... 계속 보이면 /data/keywords.json을 확인하세요.
+          </div>
+        )}
+
         {/* ── 1단계: 주제 선택 ── */}
         <section className="mb-8">
           <h2 className="text-sm font-semibold text-gray-500 mb-3 uppercase tracking-wide">1단계 — 주제 선택</h2>
