@@ -1,9 +1,41 @@
 'use client'
 
-import { useState, useRef, useCallback } from 'react'
+import { useState, useRef, useCallback, useEffect } from 'react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import type { Keyword } from '@/app/page'
+
+// ── 프리셋 타입 & localStorage ──
+
+interface Preset {
+  tone: string
+  intro: string
+  closing: string
+}
+
+const PRESET_KEY = 'honey_preset'
+const DEFAULT_PRESET: Preset = { tone: '', intro: '', closing: '' }
+
+function loadPreset(): Preset {
+  if (typeof window === 'undefined') return DEFAULT_PRESET
+  try {
+    const raw = localStorage.getItem(PRESET_KEY)
+    return raw ? { ...DEFAULT_PRESET, ...JSON.parse(raw) } : DEFAULT_PRESET
+  } catch { return DEFAULT_PRESET }
+}
+
+function savePreset(p: Preset) {
+  localStorage.setItem(PRESET_KEY, JSON.stringify(p))
+}
+
+function buildPresetBlock(p: Preset): string {
+  const parts: string[] = []
+  if (p.tone) parts.push(`톤/말투: ${p.tone}`)
+  if (p.intro) parts.push(`인트로 패턴(글 첫 문장): ${p.intro}`)
+  if (p.closing) parts.push(`클로징 패턴(글 마지막): ${p.closing}`)
+  if (parts.length === 0) return ''
+  return `\n\n[필자 스타일]\n${parts.join('\n')}\n위 스타일을 반드시 반영하라.`
+}
 
 const TOPICS = [
   { id: 1, label: '소상공인·자영업자 총정리', focus: ['소상공인', '자영업', '사업자', '재창업', '경영환경', 'LED간판', '온라인쇼핑몰', '가업승계'] },
@@ -30,7 +62,8 @@ H2 소제목 검색 의도 키워드 포함.
 5. 출처 데이터에 없는 정보는 절대 지어내지 마라.`
 
 const MERGE_SYSTEM = `친한 선배 컨설턴트 톤. ~습니다 금지. ~해요 ~거든요 ~잖아요 구어체.
-첫 문장 공감 후킹. 숫자와 금액 포함. 2500자 이상.
+첫 문장 공감 후킹. 숫자와 금액 포함.
+2000자 내외. 중복 표현 금지. 같은 말 반복하지 마라. 군더더기 없이 핵심만.
 필자 감상과 표현 최대한 살려서 자연스럽게 녹여넣기.
 필자가 쓴 문장은 원문 그대로 유지.
 SEO 구조(H1/H2/메타/키워드 위치) 반드시 유지.
@@ -39,7 +72,8 @@ AI 티 절대 안 나게. 글만 출력.`
 const ADSENSE_SYSTEM = `당신은 한국 블로그 글 작성 전문가입니다. 애드센스 승인을 위해 글을 개선합니다.
 규칙: AI 냄새 완전히 제거(습니다체 남발 금지, 자연스러운 구어체 혼합),
 개인 경험처럼 느껴지는 문장 자연스럽게 삽입,
-소제목은 독창적인 것으로, 2500자 이상,
+소제목은 독창적인 것으로,
+2000자 내외. 중복되는 문장이나 뻔한 표현은 삭제. 군더더기 없이 간결하게.
 SEO 구조(H1/H2/메타/키워드 위치) 절대 바꾸지 마.
 수정 이유나 설명 없이 바로 글만 출력.`
 
@@ -111,7 +145,26 @@ export default function WriterPanel({ keywords }: { keywords: Keyword[] }) {
   const [finalText, setFinalText] = useState('')
   const [streaming, setStreaming] = useState(false)
   const [copied, setCopied] = useState(false)
+  const [preset, setPreset] = useState<Preset>(DEFAULT_PRESET)
+  const [presetDraft, setPresetDraft] = useState<Preset>(DEFAULT_PRESET)
+  const [showSettings, setShowSettings] = useState(false)
+  const [presetSaved, setPresetSaved] = useState(false)
   const contentRef = useRef<HTMLDivElement>(null)
+
+  // localStorage에서 프리셋 복원
+  useEffect(() => {
+    const p = loadPreset()
+    setPreset(p)
+    setPresetDraft(p)
+    if (p.tone || p.intro || p.closing) setPresetSaved(true)
+  }, [])
+
+  const handleSavePreset = () => {
+    savePreset(presetDraft)
+    setPreset(presetDraft)
+    setPresetSaved(true)
+    setShowSettings(false)
+  }
 
   const scrollToBottom = useCallback(() => {
     if (contentRef.current) {
@@ -188,7 +241,7 @@ ${sourceLines}
 
     const userMsg = `## 초안\n\n${draft}\n\n---\n\n## 필자의 감상/비평\n\n${feedback}\n\n---\n\n위 초안과 필자의 감상을 융합하여 블로그 글을 작성해줘.`
 
-    await streamClaude(MERGE_SYSTEM, userMsg,
+    await streamClaude(MERGE_SYSTEM + buildPresetBlock(preset), userMsg,
       (text) => { setMergedText(prev => prev + text); setTimeout(scrollToBottom, 10) },
       () => { setStreaming(false); setStep('merged') },
     )
@@ -202,7 +255,7 @@ ${sourceLines}
 
     const userMsg = `다음 블로그 글을 애드센스 승인 기준에 맞게 개선해줘:\n\n${mergedText}`
 
-    await streamClaude(ADSENSE_SYSTEM, userMsg,
+    await streamClaude(ADSENSE_SYSTEM + buildPresetBlock(preset), userMsg,
       (text) => { setFinalText(prev => prev + text); setTimeout(scrollToBottom, 10) },
       () => { setStreaming(false); setStep('done') },
     )
@@ -230,6 +283,61 @@ ${sourceLines}
   return (
     <div ref={contentRef} className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8">
       <div className="max-w-3xl mx-auto">
+
+        {/* ── 설정 패널 ── */}
+        <section className="mb-6">
+          <button
+            onClick={() => setShowSettings(!showSettings)}
+            className="flex items-center gap-2 text-sm text-gray-500 hover:text-gray-700"
+          >
+            <svg className={`w-4 h-4 transition-transform ${showSettings ? 'rotate-90' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+            내 스타일 설정
+            {presetSaved && !showSettings && <span className="text-xs text-green-500 ml-1">저장됨</span>}
+          </button>
+
+          {showSettings && (
+            <div className="mt-3 p-4 bg-white border border-gray-200 rounded-lg space-y-3">
+              <div>
+                <label className="block text-xs font-medium text-gray-600 mb-1">톤/말투</label>
+                <input
+                  type="text"
+                  value={presetDraft.tone}
+                  onChange={e => setPresetDraft(p => ({ ...p, tone: e.target.value }))}
+                  placeholder="친한 선배 톤, ~해요 ~거든요 구어체"
+                  className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-400"
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-medium text-gray-600 mb-1">인트로 패턴 (매 글 첫 문장)</label>
+                <textarea
+                  value={presetDraft.intro}
+                  onChange={e => setPresetDraft(p => ({ ...p, intro: e.target.value }))}
+                  placeholder="예: '요즘 이거 모르면 진짜 손해거든요.' 같은 공감 후킹으로 시작"
+                  rows={2}
+                  className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-400 resize-none"
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-medium text-gray-600 mb-1">클로징 패턴 (매 글 마지막)</label>
+                <textarea
+                  value={presetDraft.closing}
+                  onChange={e => setPresetDraft(p => ({ ...p, closing: e.target.value }))}
+                  placeholder="예: '도움이 됐다면 공감 한번 눌러주세요' 같은 CTA로 마무리"
+                  rows={2}
+                  className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-400 resize-none"
+                />
+              </div>
+              <button
+                onClick={handleSavePreset}
+                className="px-4 py-2 bg-amber-500 text-white text-sm rounded-lg hover:bg-amber-600 transition-colors"
+              >
+                저장
+              </button>
+            </div>
+          )}
+        </section>
 
         {/* ── 1단계: 주제 선택 ── */}
         <section className="mb-8">
