@@ -305,7 +305,7 @@ ${sourceLines}
         {selectedTopic && step !== 'topic' && step !== 'picking' && (
           <section className="mb-8">
             <h2 className="text-sm font-semibold text-gray-500 mb-3 uppercase tracking-wide">2단계 — SEO 초안 생성</h2>
-            {(step !== 'topic' && step !== 'picking' && draft) && (
+            {draft && (
               <div className="bg-white rounded-lg border border-gray-200 p-6">
                 <div className="flex items-center justify-between mb-3">
                   <span className="text-xs font-medium text-blue-600 bg-blue-50 px-2 py-1 rounded">SEO 초안</span>
