@@ -1,0 +1,490 @@
+[
+  {
+    "keyword": "노인일자리사업 신청 - 월 30만원대 활동비 지원받는 방법",
+    "action_value": "high",
+    "reason": "고령자 대상 정부 일자리 지원금 정보로 신청 방법이 상세히 안내되어 있음",
+    "source_url": "https://www.gov.kr/portal/service/serviceInfo/135200000142",
+    "agency": "고용·취업",
+    "date": ""
+  },
+  {
+    "keyword": "취업성공 디딤돌 청년인턴 - 월 180만원 인턴십 지원금",
+    "action_value": "high",
+    "reason": "청년 대상 인턴십 참여시 정부에서 월급을 지원하는 프로그램",
+    "source_url": "https://www.gov.kr/portal/service/serviceInfo/356000000237",
+    "agency": "고용·취업",
+    "date": ""
+  },
+  {
+    "keyword": "에너지 절약시설 설치 융자 지원 - 저금리 대출받는 법",
+    "action_value": "medium",
+    "reason": "사업자 대상 에너지 절약 시설 설치시 정부 저금리 융자 지원",
+    "source_url": "https://www.gov.kr/portal/service/serviceInfo/SD0000002244",
+    "agency": "창업·사업",
+    "date": ""
+  },
+  {
+    "keyword": "소상공인 재기지원 - 사업실패 후 재도전 자금 지원받는 법",
+    "action_value": "high",
+    "reason": "사업실패 경험자 대상 재기 지원금은 일반인이 잘 모르는 정부 혜택",
+    "source_url": "https://www.gov.kr/portal/service/serviceInfo/142000000088",
+    "agency": "창업·사업",
+    "date": ""
+  },
+  {
+    "keyword": "예비군 훈련 연기 온라인 신청 - 직장인 꿀팁",
+    "action_value": "medium",
+    "reason": "예비군 훈련을 온라인으로 연기 신청할 수 있다는 사실을 모르는 사람이 많음",
+    "source_url": "https://www.gov.kr/portal/service/serviceInfo/PTR000051439",
+    "agency": "생활·안전",
+    "date": ""
+  },
+  {
+    "keyword": "예비군 훈련 보류 신청 - 특수상황 면제받는 방법",
+    "action_value": "medium",
+    "reason": "특정 사유로 훈련을 보류할 수 있다는 제도를 아는 사람이 적음",
+    "source_url": "https://www.gov.kr/portal/service/serviceInfo/PTR000051440",
+    "agency": "생활·안전",
+    "date": ""
+  },
+  {
+    "keyword": "의료급여 수급권자도 우체국 실손보험료 할인 받는다",
+    "action_value": "medium",
+    "reason": "의료급여 수급권자의 우체국 실손보험료 할인 혜택은 잘 알려지지 않은 숨겨진 혜택",
+    "source_url": "https://www.gov.kr/portal/service/serviceInfo/171000000009",
+    "agency": "생활·안전",
+    "date": ""
+  },
+  {
+    "keyword": "국가유공자 대부금으로 집 사면 취득세 면제",
+    "action_value": "high",
+    "reason": "국가유공자의 부동산 취득시 대부금 활용 취득세 감면 혜택은 큰 절세 효과가 있음",
+    "source_url": "https://www.gov.kr/portal/service/serviceInfo/131200000006",
+    "agency": "생활·안전",
+    "date": ""
+  },
+  {
+    "keyword": "국가보훈대상자 보철구 무료 지급 신청하세요",
+    "action_value": "medium",
+    "reason": "국가보훈대상자의 보철구 지급 혜택은 해당자들도 모르는 경우가 많은 복지 혜택",
+    "source_url": "https://www.gov.kr/portal/service/serviceInfo/GPV000000010",
+    "agency": "생활·안전",
+    "date": ""
+  },
+  {
+    "keyword": "여성장애인 출산비 별도 지원 - 일반 출산비와 중복수령 가능",
+    "action_value": "high",
+    "reason": "장애인 대상 추가 출산비 지원으로 일반인들이 잘 모르는 혜택",
+    "source_url": "https://www.gov.kr/portal/service/serviceInfo/GMW000000260",
+    "agency": "결혼·육아·교육",
+    "date": ""
+  },
+  {
+    "keyword": "집에서 출산해도 출산비 받는다 - 요양기관 외 출산 시 지급",
+    "action_value": "medium",
+    "reason": "병원이 아닌 곳에서 출산해도 출산비를 받을 수 있다는 특수한 정보",
+    "source_url": "https://www.gov.kr/portal/service/serviceInfo/PTR000050397",
+    "agency": "결혼·육아·교육",
+    "date": ""
+  },
+  {
+    "keyword": "SRT 임산부 할인 혜택 - KTX보다 저렴하게 이용",
+    "action_value": "medium",
+    "reason": "임산부 대상 교통비 할인 혜택으로 실생활에 유용하지만 잘 알려지지 않음",
+    "source_url": "https://www.gov.kr/portal/service/serviceInfo/B55391200001",
+    "agency": "결혼·육아·교육",
+    "date": ""
+  },
+  {
+    "keyword": "우체국 무료 엄마보험 - 임신부와 아기 무료 보장",
+    "action_value": "high",
+    "reason": "무료 공익보험으로 별도 비용 없이 받을 수 있는 숨은 혜택",
+    "source_url": "https://www.gov.kr/portal/service/serviceInfo/172100000014",
+    "agency": "결혼·육아·교육",
+    "date": ""
+  },
+  {
+    "keyword": "부도 임대주택 퇴거당했다면? 전세자금 융자 받을 수 있어요",
+    "action_value": "high",
+    "reason": "부도 임대주택 퇴거라는 특수한 상황에서만 받을 수 있는 전세자금 융자로 일반인이 잘 모르는 정보",
+    "source_url": "https://www.gov.kr/portal/service/serviceInfo/PTR000051703",
+    "agency": "주택·부동산",
+    "date": ""
+  },
+  {
+    "keyword": "충남 토지수용 당했다면 이의신청 지원받으세요",
+    "action_value": "medium",
+    "reason": "토지수용 이의신청에 대한 지원 제도로 해당 상황에 처한 사람들이 놓치기 쉬운 정보",
+    "source_url": "https://www.gov.kr/portal/service/serviceInfo/644000000821",
+    "agency": "주택·부동산",
+    "date": ""
+  },
+  {
+    "keyword": "공동육아나눔터 무료로 이용하는 방법",
+    "action_value": "medium",
+    "reason": "육아 지원 서비스로 많은 부모들이 모르고 있을 가능성이 높은 꿀정보",
+    "source_url": "https://www.gov.kr/portal/service/serviceInfo/138300000045",
+    "agency": "결혼·육아·교육",
+    "date": ""
+  },
+  {
+    "keyword": "서울 1인가구 전월세 계약 때 무료 도움 받는 법",
+    "action_value": "high",
+    "reason": "1인가구 대상 전월세 계약 지원 서비스로 일반인이 모르는 실질적 혜택",
+    "source_url": "https://www.gov.kr/portal/service/serviceInfo/611000019631",
+    "agency": "주택·부동산",
+    "date": ""
+  },
+  {
+    "keyword": "주택대출 보증료 미환급금 찾기 - 놓친 돈 확인하세요",
+    "action_value": "high",
+    "reason": "대출 완료 후 환급받지 못한 보증료가 있을 수 있는 꿀정보",
+    "source_url": "https://www.gov.kr/portal/service/serviceInfo/B55140800046",
+    "agency": "주택·부동산",
+    "date": ""
+  },
+  {
+    "keyword": "월세자금보증 - 주택금융공사에서 월세 보증해주는 제도",
+    "action_value": "medium",
+    "reason": "월세 부담을 줄일 수 있는 보증 제도로 인지도가 낮은 지원책",
+    "source_url": "https://www.gov.kr/portal/service/serviceInfo/116010000001",
+    "agency": "주택·부동산",
+    "date": ""
+  },
+  {
+    "keyword": "농어촌 출신 대학생 무이자 학자금 융자 - 숨겨진 꿀혜택",
+    "action_value": "high",
+    "reason": "농어촌 출신이라는 특수 조건으로 무이자 융자를 받을 수 있는 정보는 일반 검색으로 찾기 어려움",
+    "source_url": "https://www.gov.kr/portal/service/serviceInfo/SD0000010578",
+    "agency": "주택·부동산",
+    "date": ""
+  },
+  {
+    "keyword": "2026년 청년사업자 임대료 지원사업 - 올해 신규 계획 공개",
+    "action_value": "medium",
+    "reason": "2026년 청년사업자 대상 임대료 지원 계획이 3월에 발표되어 타이밍 차익 가능",
+    "source_url": "https://www.open.go.kr/othicInfo/infoList/infoListDetl.do?prdnNstRgstNo=DCT39A0C4ADEDC7808A53D0F508B0D99B16&prdnDt=20260310163811&nstSeCd=B",
+    "agency": "",
+    "date": "20260310"
+  },
+  {
+    "keyword": "청년 주택 중개수수료 지원금 - 부동산 거래 시 놓치는 혜택",
+    "action_value": "medium",
+    "reason": "청년 및 주거취약계층 대상 중개수수료 지원은 부동산 거래 시점에서만 알 수 있는 실용적 정보",
+    "source_url": "https://www.open.go.kr/othicInfo/infoList/infoListDetl.do?prdnNstRgstNo=DCTFB6A4A64C333FD7CD0E0FB79CE1DBB9D&prdnDt=20260320162742&nstSeCd=W",
+    "agency": "",
+    "date": "20260320"
+  },
+  {
+    "keyword": "2026년 복합민원 원스톱 서비스 확대로 행정절차 간소화",
+    "action_value": "medium",
+    "reason": "민원 처리 시간 단축과 절차 간소화로 국민 편익 증대 예상",
+    "source_url": "https://www.open.go.kr/othicInfo/infoList/infoListDetl.do?prdnNstRgstNo=DCT9C33562C5D65AC13A8DBB1584273E91C&prdnDt=20260319093803&nstSeCd=B",
+    "agency": "",
+    "date": "20260319"
+  },
+  {
+    "keyword": "2026년 중등 기초학력 보장 지원사업 신규 추진",
+    "action_value": "high",
+    "reason": "학습부진 학생 대상 맞춤형 교육지원 프로그램으로 실질적 혜택 기대",
+    "source_url": "https://www.open.go.kr/othicInfo/infoList/infoListDetl.do?prdnNstRgstNo=Q10CB260797532356000&prdnDt=20260322085336&nstSeCd=E",
+    "agency": "",
+    "date": "20260322"
+  },
+  {
+    "keyword": "영도구 청년 면접수당 지원사업 2026년 신청 가능",
+    "action_value": "high",
+    "reason": "면접 볼 때마다 받을 수 있는 수당으로 일반인 직접 혜택 정보",
+    "source_url": "https://www.open.go.kr/othicInfo/infoList/infoListDetl.do?prdnNstRgstNo=DCT57122F2C99D10F5E8893FFCDFC2A3DF8&prdnDt=20260319172951&nstSeCd=B",
+    "agency": "",
+    "date": "20260319"
+  },
+  {
+    "keyword": "전남청년 문화복지카드 2월 신청자 추가 혜택 확인 중",
+    "action_value": "medium",
+    "reason": "청년 문화복지카드 신청자에게 학교 밖 청소년 교육수당까지 중복 지원 가능성",
+    "source_url": "https://www.open.go.kr/othicInfo/infoList/infoListDetl.do?prdnNstRgstNo=DCT6E1D50C833510601812E4A16BFCA7089&prdnDt=20260321084009&nstSeCd=B",
+    "agency": "",
+    "date": "20260321"
+  },
+  {
+    "keyword": "의정부시 주거복지센터 설립과 경기도 정책지원금 신청 기회",
+    "action_value": "high",
+    "reason": "새로 설립되는 주거복지센터와 경기도 정책지원금 신청이라는 이중 혜택 정보",
+    "source_url": "https://www.open.go.kr/othicInfo/infoList/infoListDetl.do?prdnNstRgstNo=DCT8CFD52A1019C9CC04472859746DD382D&prdnDt=20260320095921&nstSeCd=B",
+    "agency": "",
+    "date": "20260320"
+  },
+  {
+    "keyword": "청년과 주거취약계층 중개수수료 지원금 2차 지급",
+    "action_value": "medium",
+    "reason": "중개수수료 지원이라는 특정 비용 지원이며 2차 지급이라는 타이밍 정보 포함",
+    "source_url": "https://www.open.go.kr/othicInfo/infoList/infoListDetl.do?prdnNstRgstNo=DCT8E13312352CF87D09BC388FC34814CA2&prdnDt=20260320162742&nstSeCd=W",
+    "agency": "",
+    "date": "20260320"
+  },
+  {
+    "keyword": "2026년 파주시 청년 전월세보증금 대출이자 지원 - 신청접수 중",
+    "action_value": "high",
+    "reason": "지방 특화 청년 주거지원 프로그램으로 중복수혜 조회가 진행 중이어서 아직 신청 가능",
+    "source_url": "https://www.open.go.kr/othicInfo/infoList/infoListDetl.do?prdnNstRgstNo=DCTE31254D6266A23A283F6788E17D54689&prdnDt=20260321163140&nstSeCd=B",
+    "agency": "",
+    "date": "20260321"
+  },
+  {
+    "keyword": "충남 가업승계(충남이어家) 소상공인 육성지원 사업 - 출연금 교부 결정",
+    "action_value": "medium",
+    "reason": "가업승계 특화 지원사업으로 일반적으로 알려지지 않은 충남 지역 소상공인 지원책",
+    "source_url": "https://www.open.go.kr/othicInfo/infoList/infoListDetl.do?prdnNstRgstNo=DCT58A3E7EA5F2C97534DBEB72420FCEE19&prdnDt=20260320131813&nstSeCd=W",
+    "agency": "",
+    "date": "20260320"
+  },
+  {
+    "keyword": "2026년 직업전환 소상공인 지원사업 2차 보조금 교부",
+    "action_value": "medium",
+    "reason": "직업전환 특화 지원사업으로 2차 교부가 진행되어 추가 지원 기회 존재",
+    "source_url": "https://www.open.go.kr/othicInfo/infoList/infoListDetl.do?prdnNstRgstNo=DCT62733FCABEA8BC738E9E2DDED231D37E&prdnDt=20260320175418&nstSeCd=W",
+    "agency": "",
+    "date": "20260320"
+  },
+  {
+    "keyword": "2026년 광명시 소상공인 경영환경개선 지원사업 계획 공개",
+    "action_value": "high",
+    "reason": "내년도 소상공인 지원사업 계획이 미리 공개되어 준비 시간 확보 가능",
+    "source_url": "https://www.open.go.kr/othicInfo/infoList/infoListDetl.do?prdnNstRgstNo=DCT6A58229E3F3C9BCBC86212AA61966057&prdnDt=20260319085641&nstSeCd=B",
+    "agency": "광명시",
+    "date": "20260319"
+  },
+  {
+    "keyword": "신한카드 울산 소상공인 자녀돌봄 지원사업 홍보 협조",
+    "action_value": "medium",
+    "reason": "은행과 지자체 연계 자녀돌봄 지원사업으로 일반적이지 않은 혜택",
+    "source_url": "https://www.open.go.kr/othicInfo/infoList/infoListDetl.do?prdnNstRgstNo=DCTDFE5C148CA9045CC2EE394DB6D34B96C&prdnDt=20260322150756&nstSeCd=W",
+    "agency": "울산광역시",
+    "date": "20260322"
+  },
+  {
+    "keyword": "2026년 소상공인 LED간판 지원사업 2차 모집 진행 중",
+    "action_value": "high",
+    "reason": "2차 모집으로 1차를 놓친 소상공인들에게 추가 기회 제공",
+    "source_url": "https://www.open.go.kr/othicInfo/infoList/infoListDetl.do?prdnNstRgstNo=DCTBA4BCB64AA79C09AA62D16B659320F02&prdnDt=20260321133248&nstSeCd=B",
+    "agency": "",
+    "date": "20260321"
+  },
+  {
+    "keyword": "2026년 2차 긴급복지 국시비보조금 교부 결정",
+    "action_value": "high",
+    "reason": "2차 긴급복지 지원금 교부로 추가 지원 기회 발생",
+    "source_url": "https://www.open.go.kr/othicInfo/infoList/infoListDetl.do?prdnNstRgstNo=DCT57155B18114D6772F1B2A26F65B9F4DF&prdnDt=20260320083726&nstSeCd=W",
+    "agency": "",
+    "date": "20260320"
+  },
+  {
+    "keyword": "2026년 부산형 긴급복지 2차 지원금 교부 확정",
+    "action_value": "high",
+    "reason": "부산 지역 특화 긴급복지지원 예산이 추가 배정되어 지원 기회 확대",
+    "source_url": "https://www.open.go.kr/othicInfo/infoList/infoListDetl.do?prdnNstRgstNo=DCT9521055FFA694850D051F132D2B7F442&prdnDt=20260320175853&nstSeCd=B",
+    "agency": "부산광역시",
+    "date": "20260320"
+  },
+  {
+    "keyword": "2026년 긴급복지지원 국가보조금 2차 교부 결정",
+    "action_value": "high",
+    "reason": "긴급복지 국가 예산 2차 배정으로 추가 지원 가능성 증가",
+    "source_url": "https://www.open.go.kr/othicInfo/infoList/infoListDetl.do?prdnNstRgstNo=DCT174CB5A1E2EED5F44975931D8F46558C&prdnDt=20260319144503&nstSeCd=W",
+    "agency": "",
+    "date": "20260319"
+  },
+  {
+    "keyword": "2026년 에너지바우처 1차 사업계획 변경 - 지원 내용 확대될 가능성",
+    "action_value": "medium",
+    "reason": "에너지바우처 사업계획 변경안으로 지원 대상이나 금액 변경 가능성이 높음",
+    "source_url": "https://www.open.go.kr/othicInfo/infoList/infoListDetl.do?prdnNstRgstNo=00000000000002623817B553530&prdnDt=20260312100235&nstSeCd=P",
+    "agency": "",
+    "date": "20260312"
+  },
+  {
+    "keyword": "충남사회복지공동모금회 긴급지원 - 추가 지원 창구 발견",
+    "action_value": "medium",
+    "reason": "일반인이 잘 모르는 공동모금회를 통한 긴급지원 루트로 활용 가능",
+    "source_url": "https://www.open.go.kr/othicInfo/infoList/infoListDetl.do?prdnNstRgstNo=DCT30953BCF0EAA84AF7653184A4BC778F9&prdnDt=20260322120056&nstSeCd=B",
+    "agency": "",
+    "date": "20260322"
+  },
+  {
+    "keyword": "2026년 에너지바우처 사업계획 수정안 - 중동 정세로 인한 긴급 지원 확대",
+    "action_value": "high",
+    "reason": "중동 정세 대응으로 취약계층 에너지바우처 집행 관리 강화 및 2026년도 사업계획 수정으로 지원 규모 변화 예상",
+    "source_url": "https://www.open.go.kr/othicInfo/infoList/infoListDetl.do?prdnNstRgstNo=DCT281F6258373AEA06616172C4767C8530&prdnDt=20260322163826&nstSeCd=B",
+    "agency": "",
+    "date": "20260322"
+  },
+  {
+    "keyword": "에너지바우처 취약에너지 지원 TF 운영결과 - 새로운 지원 방안 도출",
+    "action_value": "medium",
+    "reason": "임시조직 TF 운영결과로 기존 에너지바우처 외 추가 취약계층 에너지 지원 방안이 나올 가능성",
+    "source_url": "https://www.open.go.kr/othicInfo/infoList/infoListDetl.do?prdnNstRgstNo=00000000000002589712B553530&prdnDt=20260129141523&nstSeCd=P",
+    "agency": "",
+    "date": "20260129"
+  },
+  {
+    "keyword": "에너지바우처 2년 연속 미사용시 혜택 소멸 위험, 사유조사 진행 중",
+    "action_value": "high",
+    "reason": "에너지바우처를 2년 연속 미사용하면 지원 대상에서 제외될 수 있다는 중요한 정보",
+    "source_url": "https://www.open.go.kr/othicInfo/infoList/infoListDetl.do?prdnNstRgstNo=DCT8D788C4D5DBED2B102950EB9AAB885E4&prdnDt=20260320142825&nstSeCd=W",
+    "agency": "",
+    "date": "20260320"
+  },
+  {
+    "keyword": "의정부시 여성장애인 출산지원금 제도 폐지 예정, 신청 마감 임박",
+    "action_value": "high",
+    "reason": "출산지원금 조례 폐지 규칙안이 나왔다는 것은 해당 혜택이 곧 종료될 수 있음을 의미",
+    "source_url": "https://www.open.go.kr/othicInfo/infoList/infoListDetl.do?prdnNstRgstNo=DCT56C218EE9BF7E1FDE38F289BC239F4DB&prdnDt=20260310151504&nstSeCd=B",
+    "agency": "",
+    "date": "20260310"
+  },
+  {
+    "keyword": "고양시 출산지원금 1월 신청자 2월 지급 완료, 신청 후 1개월 후 지급",
+    "action_value": "medium",
+    "reason": "출산지원금 신청부터 지급까지의 정확한 소요기간을 알 수 있는 실무정보",
+    "source_url": "https://www.open.go.kr/othicInfo/infoList/infoListDetl.do?prdnNstRgstNo=DCTEAB1390439FE141FDD69AE878DB8C5BA&prdnDt=20260220160523&nstSeCd=B",
+    "agency": "",
+    "date": "20260220"
+  },
+  {
+    "keyword": "청주시 장애인가정 출산지원금 신청 접수 중 - 2026년 3월",
+    "action_value": "high",
+    "reason": "일반인들이 잘 모르는 장애인가정 대상 출산지원금 신청 기회",
+    "source_url": "https://www.open.go.kr/othicInfo/infoList/infoListDetl.do?prdnNstRgstNo=DCT9B18B2C66497D322C51E62532DFF6732&prdnDt=20260320114115&nstSeCd=B",
+    "agency": "청주시",
+    "date": "20260320"
+  },
+  {
+    "keyword": "다태아 출산가정 조제분유 지원금 1분기 지급 시작",
+    "action_value": "medium",
+    "reason": "쌍둥이 등 다태아 출산가정 대상 조제분유비 지원 혜택",
+    "source_url": "https://www.open.go.kr/othicInfo/infoList/infoListDetl.do?prdnNstRgstNo=DCTFAB9FD41CB10306805D2175318F03B59&prdnDt=20260320091407&nstSeCd=B",
+    "agency": "",
+    "date": "20260320"
+  },
+  {
+    "keyword": "사립유치원 교원 육아휴직수당 1분기 추가 신청 마감 임박",
+    "action_value": "high",
+    "reason": "3월 21일 신청 공지로 마감이 임박한 육아휴직수당 추가 신청 기회",
+    "source_url": "https://www.open.go.kr/othicInfo/infoList/infoListDetl.do?prdnNstRgstNo=P10CB260799909660000&prdnDt=20260321094033&nstSeCd=E",
+    "agency": "",
+    "date": "20260321"
+  },
+  {
+    "keyword": "위탁가정도 다자녀 혜택 받는다! 제도개선 권고안 발표",
+    "action_value": "high",
+    "reason": "위탁가정에게 다자녀 혜택을 지원하는 새로운 제도개선 권고로, 일반인이 놓치기 쉬운 정보",
+    "source_url": "https://www.open.go.kr/othicInfo/infoList/infoListDetl.do?prdnNstRgstNo=DCT3AE76CFDFBC9E833B24AD80508CA52E2&prdnDt=20251224155742&nstSeCd=C",
+    "agency": "",
+    "date": "20251224"
+  },
+  {
+    "keyword": "2026년 전국 다자녀 가정 감면 혜택 조례 현황 공개",
+    "action_value": "medium",
+    "reason": "각 지자체별 다자녀 가정 감면 혜택 현황이 집계되어 비교 분석 가능한 타이밍",
+    "source_url": "https://www.open.go.kr/othicInfo/infoList/infoListDetl.do?prdnNstRgstNo=DCT8D79DA5B8EE2E9D80C3004847B478D22&prdnDt=20260319092553&nstSeCd=B",
+    "agency": "",
+    "date": "20260319"
+  },
+  {
+    "keyword": "다자녀 혜택 정보 공개 - 새로운 혜택 내용 확인 필요",
+    "action_value": "medium",
+    "reason": "다자녀 혜택 관련 자료가 공개되었으나 구체적 내용 미공개로 확인 필요",
+    "source_url": "https://www.open.go.kr/othicInfo/infoList/infoListDetl.do?prdnNstRgstNo=DCT78AB1A2C8EB5AD7CA62BADBB369EC2A1&prdnDt=20260316155235&nstSeCd=B",
+    "agency": "",
+    "date": "20260316"
+  },
+  {
+    "keyword": "광주 구조고도화자금 2026년 상반기 지원 - 기업 자금지원 기회",
+    "action_value": "medium",
+    "reason": "지역 한정 기업 자금 지원으로 경쟁률이 상대적으로 낮을 수 있음",
+    "source_url": "https://www.bizinfo.go.kr/sii/siia/selectSIIA200Detail.do?hashCode=&rowsSel=&rows=15&cpage=1&cat=&schPblancDiv=&schJrsdCodeTy=&schWntyAt=&schAreaDetailCodes=&schEndAt=N&orderGb=&sort=&preKeywords=&condition=&condition1=&keyword=&pblancId=PBLN_000000000119836",
+    "agency": "금융",
+    "date": "310"
+  },
+  {
+    "keyword": "광주 벤처기업육성자금 2026년 지원 - 벤처 창업 자금 지원",
+    "action_value": "medium",
+    "reason": "지역 벤처기업 대상 자금 지원으로 전국 단위보다 경쟁률 낮음",
+    "source_url": "https://www.bizinfo.go.kr/sii/siia/selectSIIA200Detail.do?hashCode=&rowsSel=&rows=15&cpage=1&cat=&schPblancDiv=&schJrsdCodeTy=&schWntyAt=&schAreaDetailCodes=&schEndAt=N&orderGb=&sort=&preKeywords=&condition=&condition1=&keyword=&pblancId=PBLN_000000000119834",
+    "agency": "금융",
+    "date": "293"
+  },
+  {
+    "keyword": "경북 수산물 기업 TV홈쇼핑 방송비 지원 - 무료 방송 기회",
+    "action_value": "high",
+    "reason": "TV홈쇼핑 방송비 지원은 일반적으로 수백만원 규모이며 홍보 효과가 크지만 잘 알려지지 않은 지원사업",
+    "source_url": "https://www.bizinfo.go.kr/sii/siia/selectSIIA200Detail.do?hashCode=&rowsSel=&rows=15&cpage=1&cat=&schPblancDiv=&schJrsdCodeTy=&schWntyAt=&schAreaDetailCodes=&schEndAt=N&orderGb=&sort=&preKeywords=&condition=&condition1=&keyword=&pblancId=PBLN_000000000119827",
+    "agency": "내수",
+    "date": "280"
+  },
+  {
+    "keyword": "구미시 여성 창업자 추가모집 - 창업 3년 미만 대상",
+    "action_value": "high",
+    "reason": "추가모집은 경쟁률이 낮고 여성 창업자 특화 지원사업으로 타겟이 명확한 꿀정보",
+    "source_url": "https://www.bizinfo.go.kr/sii/siia/selectSIIA200Detail.do?hashCode=&rowsSel=&rows=15&cpage=1&cat=&schPblancDiv=&schJrsdCodeTy=&schWntyAt=&schAreaDetailCodes=&schEndAt=N&orderGb=&sort=&preKeywords=&condition=&condition1=&keyword=&pblancId=PBLN_000000000119824",
+    "agency": "창업",
+    "date": "281"
+  },
+  {
+    "keyword": "광주 북구 온라인쇼핑몰 입점 소상공인 무료 지원",
+    "action_value": "medium",
+    "reason": "지자체 운영 온라인쇼핑몰 무료 입점 기회는 소상공인에게 실질적 도움이 되는 숨은 혜택",
+    "source_url": "https://www.bizinfo.go.kr/sii/siia/selectSIIA200Detail.do?hashCode=&rowsSel=&rows=15&cpage=1&cat=&schPblancDiv=&schJrsdCodeTy=&schWntyAt=&schAreaDetailCodes=&schEndAt=N&orderGb=&sort=&preKeywords=&condition=&condition1=&keyword=&pblancId=PBLN_000000000119825",
+    "agency": "내수",
+    "date": "279"
+  },
+  {
+    "keyword": "구미시 시제품제작센터 무료 이용 기업 모집",
+    "action_value": "medium",
+    "reason": "시제품 제작비는 보통 수백만원이지만 센터 이용시 무료/저가로 이용 가능한 숨은 혜택",
+    "source_url": "https://www.bizinfo.go.kr/sii/siia/selectSIIA200Detail.do?hashCode=&rowsSel=&rows=15&cpage=1&cat=&schPblancDiv=&schJrsdCodeTy=&schWntyAt=&schAreaDetailCodes=&schEndAt=N&orderGb=&sort=&preKeywords=&condition=&condition1=&keyword=&pblancId=PBLN_000000000119822",
+    "agency": "경영",
+    "date": "288"
+  },
+  {
+    "keyword": "2026년 푸드테크 청년 인턴십 기업 지원금 - 인건비 100% 지원",
+    "action_value": "high",
+    "reason": "푸드테크라는 특화 분야 청년 인턴십 지원으로 기업 인건비 부담 없이 인재 확보 기회",
+    "source_url": "https://www.bizinfo.go.kr/sii/siia/selectSIIA200Detail.do?hashCode=&rowsSel=&rows=15&cpage=2&cat=&schPblancDiv=&schJrsdCodeTy=&schWntyAt=&schAreaDetailCodes=&schEndAt=N&orderGb=&sort=&preKeywords=&condition=&condition1=&keyword=&pblancId=PBLN_000000000119816",
+    "agency": "인력",
+    "date": "33"
+  },
+  {
+    "keyword": "2026년 식품외식 청년 인턴십 지원 - 마감 임박 27일차",
+    "action_value": "high",
+    "reason": "식품외식업체 대상 청년 인턴 채용 시 인건비 지원, 마감이 임박하여 타이밍 차익 기회",
+    "source_url": "https://www.bizinfo.go.kr/sii/siia/selectSIIA200Detail.do?hashCode=&rowsSel=&rows=15&cpage=2&cat=&schPblancDiv=&schJrsdCodeTy=&schWntyAt=&schAreaDetailCodes=&schEndAt=N&orderGb=&sort=&preKeywords=&condition=&condition1=&keyword=&pblancId=PBLN_000000000119814",
+    "agency": "인력",
+    "date": "27"
+  },
+  {
+    "keyword": "2026년 밀·콩 제품화 패키지 지원사업 2차 모집",
+    "action_value": "medium",
+    "reason": "전략작물 제품화 지원으로 농식품 관련 기업에 특화된 개발비 지원",
+    "source_url": "https://www.bizinfo.go.kr/sii/siia/selectSIIA200Detail.do?hashCode=&rowsSel=&rows=15&cpage=2&cat=&schPblancDiv=&schJrsdCodeTy=&schWntyAt=&schAreaDetailCodes=&schEndAt=N&orderGb=&sort=&preKeywords=&condition=&condition1=&keyword=&pblancId=PBLN_000000000119813",
+    "agency": "기술",
+    "date": "33"
+  },
+  {
+    "keyword": "전남 미래차 기업 맞춤형 기술사업화 지원 - 마감 22일",
+    "action_value": "high",
+    "reason": "전남 지역 자동차 관련 기업 대상 맞춤형 지원으로 지역특화 혜택, 마감 임박",
+    "source_url": "https://www.bizinfo.go.kr/sii/siia/selectSIIA200Detail.do?hashCode=&rowsSel=&rows=15&cpage=2&cat=&schPblancDiv=&schJrsdCodeTy=&schWntyAt=&schAreaDetailCodes=&schEndAt=N&orderGb=&sort=&preKeywords=&condition=&condition1=&keyword=&pblancId=PBLN_000000000119808",
+    "agency": "기술",
+    "date": "22"
+  },
+  {
+    "keyword": "2026년 광주 재창업가 사업화자금지원 모집 시작 - 창업 실패자 전용 지원금",
+    "action_value": "high",
+    "reason": "창업 실패 경험자만 대상으로 하는 특화 지원사업으로 일반 창업지원과 달리 재도전자를 위한 별도 자금 지원",
+    "source_url": "https://www.bizinfo.go.kr/sii/siia/selectSIIA200Detail.do?hashCode=&rowsSel=&rows=15&cpage=2&cat=&schPblancDiv=&schJrsdCodeTy=&schWntyAt=&schAreaDetailCodes=&schEndAt=N&orderGb=&sort=&preKeywords=&condition=&condition1=&keyword=&pblancId=PBLN_000000000119806",
+    "agency": "창업",
+    "date": "38"
+  }
+]

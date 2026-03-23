@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* 마크다운 렌더링 스타일 */
+/* 마크다운 렌더링 */
 .prose h1 { @apply text-2xl font-bold mb-4 text-gray-900; }
 .prose h2 { @apply text-xl font-bold mt-6 mb-3 text-gray-800 border-b pb-2; }
 .prose h3 { @apply text-lg font-semibold mt-4 mb-2 text-gray-700; }
@@ -13,12 +13,22 @@
 .prose strong { @apply font-bold text-gray-900; }
 .prose a { @apply text-blue-600 underline hover:text-blue-800; }
 .prose blockquote { @apply border-l-4 border-amber-400 pl-4 py-1 my-3 bg-amber-50 rounded-r; }
-.prose code { @apply bg-gray-100 px-1.5 py-0.5 rounded text-sm font-mono; }
-.prose pre { @apply bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto mb-4; }
-.prose pre code { @apply bg-transparent p-0; }
 .prose table { @apply w-full border-collapse mb-4; }
 .prose thead { @apply bg-gray-100; }
 .prose th { @apply border border-gray-300 px-3 py-2 text-left font-semibold text-sm; }
 .prose td { @apply border border-gray-300 px-3 py-2 text-sm; }
 .prose tr:hover { @apply bg-gray-50; }
 .prose hr { @apply my-6 border-gray-200; }
+.prose code { @apply bg-gray-100 px-1.5 py-0.5 rounded text-sm; }
+
+/* 스트리밍 커서 */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+.streaming-cursor::after {
+  content: '|';
+  animation: blink 0.8s infinite;
+  color: #f59e0b;
+  font-weight: bold;
+}
