@@ -47,52 +47,52 @@ const TOPICS = [
     id: 1, label: '소상공인·자영업자 총정리',
     focus: ['소상공인', '자영업', '사업자', '재창업', '경영환경', 'LED간판', '온라인쇼핑몰', '가업승계'],
     suggestions: [
-      { title: '폐업 후 재창업, 정부가 돈 준다고? 소상공인 재기지원 총정리', pick: ['재기', '재창업', '사업화자금'] },
-      { title: 'LED간판 무료로 바꾸는 법 — 소상공인 간판지원사업', pick: ['LED간판'] },
-      { title: '가게 임대료 부담 줄이는 정부지원금 3가지', pick: ['임대료', '경영환경'] },
-      { title: '가업승계 하려면 꼭 알아야 할 지원금 정리', pick: ['가업승계'] },
+      { title: '2026 소상공인 재기지원금 신청방법 총정리 (최대 2억)', pick: ['재기', '재창업', '사업화자금'] },
+      { title: 'LED간판 무료교체 지원금 신청 조건 & 방법 (2026)', pick: ['LED간판'] },
+      { title: '소상공인 임대료 지원금 3가지, 월 최대 50만원 받는 법', pick: ['임대료', '경영환경'] },
+      { title: '가업승계 지원금 2026 신청 가이드 (충남 이어家 포함)', pick: ['가업승계'] },
     ] as Suggestion[],
   },
   {
     id: 2, label: '편의점·카페·음식점 사장님',
     focus: ['소상공인', '임대료', 'LED간판', '경영환경개선', '직업전환', '자녀돌봄'],
     suggestions: [
-      { title: '카페 사장님이 놓치고 있는 정부지원금 5가지', pick: ['소상공인', '경영환경', 'LED간판'] },
-      { title: '음식점 경영환경개선 지원금, 신청 안 하면 손해', pick: ['경영환경'] },
-      { title: '자영업 접고 재취업? 직업전환 지원금 받는 법', pick: ['직업전환'] },
-      { title: '자영업자 자녀돌봄 지원 — 이런 것도 된다고?', pick: ['자녀돌봄'] },
+      { title: '카페 사장님 정부지원금 5가지, 안 받으면 진짜 손해', pick: ['소상공인', '경영환경', 'LED간판'] },
+      { title: '음식점 경영환경개선 지원금 신청방법 (2026 최신)', pick: ['경영환경'] },
+      { title: '자영업 폐업 후 재취업 지원금 받는 법 (직업전환)', pick: ['직업전환'] },
+      { title: '자영업자 자녀돌봄 지원금, 이런 것도 나라에서 준다', pick: ['자녀돌봄'] },
     ] as Suggestion[],
   },
   {
     id: 3, label: '청년 지원금 완벽 가이드',
     focus: ['청년', '월세', '전월세', '면접수당', '인턴십', '중개수수료', '문화복지', '학자금'],
     suggestions: [
-      { title: '청년 월세 지원금, 신청 조건부터 입금까지 총정리', pick: ['월세', '전월세'] },
-      { title: '면접볼 때 교통비 받는 법 — 청년 면접수당 신청', pick: ['면접수당'] },
-      { title: '부동산 중개수수료 돌려받는 청년 지원금', pick: ['중개수수료'] },
-      { title: '인턴만 해도 월 180만원? 청년 인턴십 지원금 정리', pick: ['인턴십', '인턴'] },
-      { title: '농어촌 출신이면 무이자 학자금 대출 가능', pick: ['학자금'] },
+      { title: '2026 청년 월세 지원금 신청 조건·금액·방법 총정리', pick: ['월세', '전월세'] },
+      { title: '면접 교통비 지원금 신청법 (영도구 면접수당 포함)', pick: ['면접수당'] },
+      { title: '청년 부동산 중개수수료 지원금, 이사할 때 꼭 신청하세요', pick: ['중개수수료'] },
+      { title: '청년 인턴십 월 180만원 지원, 신청 마감일 확인하세요', pick: ['인턴십', '인턴'] },
+      { title: '농어촌 출신 대학생 무이자 학자금 대출 신청 가이드', pick: ['학자금'] },
     ] as Suggestion[],
   },
   {
     id: 4, label: '긴급복지·에너지바우처·월세지원',
     focus: ['긴급복지', '에너지바우처', '월세', '의료급여', '보철구', '출산비', '전세자금'],
     suggestions: [
-      { title: '당장 급한데 돈이 없다면 — 긴급복지지원 신청법', pick: ['긴급복지'] },
-      { title: '에너지바우처 2년 안 쓰면 소멸! 지금 확인하세요', pick: ['에너지바우처'] },
-      { title: '전세 보증금 날렸을 때 받을 수 있는 긴급 대출', pick: ['전세자금', '전세'] },
-      { title: '출산비 중복 수령 가능한 지원금 조합 정리', pick: ['출산', '출산비'] },
+      { title: '긴급복지지원 신청 조건·금액·절차 한눈에 정리 (2026)', pick: ['긴급복지'] },
+      { title: '에너지바우처 2년 미사용시 소멸! 잔액 확인 방법', pick: ['에너지바우처'] },
+      { title: '전세사기 피해자 긴급 전세자금 대출 신청법', pick: ['전세자금', '전세'] },
+      { title: '출산지원금 중복 수령 가능한 조합 정리 (2026 최신)', pick: ['출산', '출산비'] },
     ] as Suggestion[],
   },
   {
     id: 5, label: '숨겨진 정부지원금 총정리',
     focus: ['우체국', '엄마보험', 'SRT', '임산부', '공동육아', '가업승계', '시제품', '미환급금', '다자녀', '다태아'],
     suggestions: [
-      { title: '우체국 무료 엄마보험, 임신하면 무조건 가입하세요', pick: ['우체국', '엄마보험'] },
-      { title: 'SRT 임산부 할인 — KTX보다 싸게 타는 법', pick: ['SRT', '임산부'] },
-      { title: '주택대출 보증료 미환급금, 잠자는 내 돈 찾기', pick: ['미환급금'] },
-      { title: '다자녀 가정 감면 혜택 총정리 — 조례별 비교', pick: ['다자녀', '다태아'] },
-      { title: '공동육아나눔터 무료 이용법, 동네에 있는지 확인', pick: ['공동육아'] },
+      { title: '우체국 엄마보험 무료 가입 방법, 임신했으면 지금 바로', pick: ['우체국', '엄마보험'] },
+      { title: 'SRT 임산부 할인 50%, KTX보다 싸게 타는 꿀팁', pick: ['SRT', '임산부'] },
+      { title: '주택대출 보증료 미환급금 조회 방법 (숨은 돈 찾기)', pick: ['미환급금'] },
+      { title: '2026 다자녀 가정 감면 혜택 총정리 (지자체별 비교)', pick: ['다자녀', '다태아'] },
+      { title: '공동육아나눔터 무료 이용, 우리 동네에도 있을까?', pick: ['공동육아'] },
     ] as Suggestion[],
   },
 ]
@@ -116,7 +116,8 @@ H2 소제목 검색 의도 키워드 포함.
 const MERGE_SYSTEM = `친한 선배 컨설턴트 톤. ~습니다 금지. ~해요 ~거든요 ~잖아요 구어체.
 첫 문장 공감 후킹. 숫자와 금액 포함.
 2000자 내외. 중복 표현 금지. 같은 말 반복하지 마라. 군더더기 없이 핵심만.
-필자 감상과 표현 최대한 살려서 자연스럽게 녹여넣기.
+필자의 감상/비평/경험은 글 도입부가 아니라 중간~후반부에 자연스럽게 녹여넣어라.
+도입부는 정보 중심으로 시작하고, 필자의 목소리는 각 소제목 사이사이나 마무리 쪽에 배치하라.
 필자가 쓴 문장은 원문 그대로 유지.
 SEO 구조(H1/H2/메타/키워드 위치) 반드시 유지.
 AI 티 절대 안 나게. 글만 출력.`
@@ -191,6 +192,7 @@ export default function WriterPanel({ keywords }: { keywords: Keyword[] }) {
   const [selectedTopic, setSelectedTopic] = useState<typeof TOPICS[0] | null>(null)
   const [matchedKeywords, setMatchedKeywords] = useState<Keyword[]>([])
   const [pickedIndexes, setPickedIndexes] = useState<Set<number>>(new Set())
+  const [suggestedTitle, setSuggestedTitle] = useState('')
   const [draft, setDraft] = useState('')
   const [feedback, setFeedback] = useState('')
   const [mergedText, setMergedText] = useState('')
@@ -226,11 +228,11 @@ export default function WriterPanel({ keywords }: { keywords: Keyword[] }) {
 
   const handleTopicSelect = (topic: typeof TOPICS[0]) => {
     setSelectedTopic(topic)
+    setSuggestedTitle('')
     setDraft('')
     setFeedback('')
     setMergedText('')
     setFinalText('')
-    // 주제에 맞는 키워드 필터링
     const matched = keywords.filter(kw =>
       topic.focus.some(f => kw.keyword.includes(f))
     )
@@ -259,6 +261,7 @@ export default function WriterPanel({ keywords }: { keywords: Keyword[] }) {
   // 제목 제안 클릭 → 주제 선택 + 관련 키워드 자동 체크
   const handleSuggestionClick = (topic: typeof TOPICS[0], suggestion: Suggestion) => {
     setSelectedTopic(topic)
+    setSuggestedTitle(suggestion.title)
     setDraft('')
     setFeedback('')
     setMergedText('')
@@ -294,7 +297,12 @@ export default function WriterPanel({ keywords }: { keywords: Keyword[] }) {
       `- 기관: ${kw.agency || '미상'} | 키워드: ${kw.keyword} | 날짜: ${kw.date || '미상'} | URL: ${kw.source_url || '없음'}`
     ).join('\n')
 
+    const titleInstruction = suggestedTitle
+      ? `블로그 제목(H1)은 반드시 "${suggestedTitle}"을 그대로 사용하라. 바꾸지 마라.`
+      : `블로그 제목(H1)은 검색량 높은 키워드 포함 30자 이내로 직접 작성하라.`
+
     const userMsg = `주제: ${selectedTopic.label}
+${titleInstruction}
 
 [출처 데이터] (${data.length}건)
 ${sourceLines}
@@ -370,6 +378,7 @@ ${sourceLines}
     setSelectedTopic(null)
     setMatchedKeywords([])
     setPickedIndexes(new Set())
+    setSuggestedTitle('')
     setDraft('')
     setFeedback('')
     setMergedText('')
@@ -509,6 +518,12 @@ ${sourceLines}
             <h2 className="text-sm font-semibold text-gray-500 mb-3 uppercase tracking-wide">
               키워드 선택 — {matchedKeywords.length}개 중 {pickedIndexes.size}개 선택
             </h2>
+            {suggestedTitle && step === 'picking' && (
+              <div className="mb-3 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+                <p className="text-xs text-blue-500 mb-1">블로그 제목</p>
+                <p className="text-sm font-medium text-blue-800">{suggestedTitle}</p>
+              </div>
+            )}
             {step === 'picking' && (
               <>
                 <div className="flex gap-2 mb-3">
