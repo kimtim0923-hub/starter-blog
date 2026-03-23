@@ -261,11 +261,33 @@ ${sourceLines}
     )
   }
 
-  const handleCopy = async () => {
-    await navigator.clipboard.writeText(finalText)
-    setCopied(true)
-    setTimeout(() => setCopied(false), 2000)
+  // 마크다운 제거 후 플레인텍스트 복사
+  const stripMarkdown = (md: string): string => {
+    return md
+      .replace(/^#{1,6}\s+/gm, '')           // # 제목
+      .replace(/\*\*(.+?)\*\*/g, '$1')        // **볼드**
+      .replace(/\*(.+?)\*/g, '$1')            // *이탤릭*
+      .replace(/`(.+?)`/g, '$1')              // `코드`
+      .replace(/^\s*[-*+]\s+/gm, '- ')        // 리스트 통일
+      .replace(/^\s*>\s+/gm, '')              // > 인용
+      .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '$1 ($2)')  // [텍스트](URL) → 텍스트 (URL)
+      .replace(/^---+$/gm, '')                // 구분선
+      .replace(/<!--[\s\S]*?-->/g, '')          // HTML 주석
+      .replace(/\|/g, ' ')                    // 테이블 파이프
+      .replace(/\n{3,}/g, '\n\n')             // 과도한 줄바꿈
+      .trim()
   }
+
+  const copyPlainText = async (text: string, setter: (v: boolean) => void) => {
+    await navigator.clipboard.writeText(stripMarkdown(text))
+    setter(true)
+    setTimeout(() => setter(false), 2000)
+  }
+
+  const [copiedMerged, setCopiedMerged] = useState(false)
+
+  const handleCopyMerged = () => copyPlainText(mergedText, setCopiedMerged)
+  const handleCopy = () => copyPlainText(finalText, setCopied)
 
   const handleReset = () => {
     setSelectedTopic(null)
@@ -280,9 +302,35 @@ ${sourceLines}
 
   const afterMerge = step === 'merged' || step === 'polishing' || step === 'done'
 
+  // 주제별 매칭 키워드 수 계산 (생성 제안용)
+  const topicSuggestions = TOPICS.map(topic => {
+    const matched = keywords.filter(kw => topic.focus.some(f => kw.keyword.includes(f)))
+    return { ...topic, count: matched.length }
+  }).filter(t => t.count > 0)
+
   return (
     <div ref={contentRef} className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8">
       <div className="max-w-3xl mx-auto">
+
+        {/* ── 생성 제안 ── */}
+        {step === 'topic' && keywords.length > 0 && (
+          <section className="mb-6 p-4 bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 rounded-lg">
+            <h3 className="text-sm font-semibold text-amber-800 mb-2">이런 글은 어때요?</h3>
+            <div className="space-y-2">
+              {topicSuggestions.map(t => (
+                <button
+                  key={t.id}
+                  onClick={() => handleTopicSelect(t)}
+                  className="w-full flex items-center justify-between p-2 rounded-lg hover:bg-white/60 transition-colors text-left"
+                >
+                  <span className="text-sm text-gray-700">{t.label}</span>
+                  <span className="text-xs text-amber-600 bg-amber-100 px-2 py-0.5 rounded-full">{t.count}개 소스</span>
+                </button>
+              ))}
+            </div>
+            <p className="text-xs text-gray-400 mt-2">주제를 선택하면 소스별로 키워드를 골라 여러 편의 글을 만들 수 있어요</p>
+          </section>
+        )}
 
         {/* ── 설정 패널 ── */}
         <section className="mb-6">
@@ -449,13 +497,23 @@ ${sourceLines}
                 <div className="flex items-center justify-between mb-3">
                   <span className="text-xs font-medium text-amber-700 bg-amber-50 px-2 py-1 rounded">합쳐진 글</span>
                   {step === 'merging' && streaming && <span className="text-xs text-amber-500 animate-pulse">생성 중...</span>}
-                  {step === 'merged' && (
-                    <button
-                      onClick={handlePolish}
-                      className="px-4 py-1.5 rounded-lg text-sm font-medium bg-purple-500 text-white hover:bg-purple-600 transition-colors"
-                    >
-                      애드센스 코치 다듬기
-                    </button>
+                  {(step === 'merged' || afterMerge) && (
+                    <div className="flex gap-2">
+                      <button
+                        onClick={handleCopyMerged}
+                        className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${copiedMerged ? 'bg-green-500 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}`}
+                      >
+                        {copiedMerged ? '복사됨!' : '복사'}
+                      </button>
+                      {step === 'merged' && (
+                        <button
+                          onClick={handlePolish}
+                          className="px-4 py-1.5 rounded-lg text-sm font-medium bg-purple-500 text-white hover:bg-purple-600 transition-colors"
+                        >
+                          애드센스 코치 다듬기
+                        </button>
+                      )}
+                    </div>
                   )}
                 </div>
                 <article className={`prose ${step === 'merging' && streaming ? 'streaming-cursor' : ''}`}>
