@@ -1,0 +1,21 @@
+# Dependencies
+viewer/node_modules/
+viewer/.next/
+viewer/out/
+
+# Generated posts (copied at build time)
+viewer/public/posts/*.md
+
+# Output data (large, regeneratable)
+output/raw_documents_*.json
+output/keywords_*.json
+output/scripts_*.json
+output/blog/
+output/blog_draft/
+output/blog_final/
+
+# Environment
+.env
+
+# OS
+.DS_Store
