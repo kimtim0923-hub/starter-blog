@@ -130,7 +130,46 @@ const ADSENSE_SYSTEM = `당신은 한국 블로그 글 작성 전문가입니다
 SEO 구조(H1/H2/메타/키워드 위치) 절대 바꾸지 마.
 수정 이유나 설명 없이 바로 글만 출력.`
 
-type Step = 'topic' | 'picking' | 'drafting' | 'feedback' | 'merging' | 'merged' | 'polishing' | 'done'
+type Step = 'topic' | 'picking' | 'drafting' | 'feedback' | 'merging' | 'merged' | 'polishing' | 'done' | 'refining' | 'refined'
+
+// ── AI 제목 추천 ──
+
+const SUGGEST_SYSTEM = `당신은 한국 SEO 블로그 전문가입니다.
+주어진 정부지원금 키워드 데이터를 분석하여 블로그 글 제목을 추천하세요.
+
+규칙:
+- 반드시 JSON 배열만 반환. 마크다운 코드블록 없이 순수 JSON만.
+- 10~15개 제목 추천
+- 각 제목은 실제 블로그 H1 제목으로 바로 사용 가능해야 함
+- 검색량 높은 구체적 키워드 포함 (연도, 금액, 신청방법 등)
+- 30자 이내
+- 키워드를 2~3개씩 묶어서 하나의 글 주제로 만들어라
+- 같은 키워드를 여러 제목에 중복 사용하지 마라
+
+JSON 형식:
+[
+  {
+    "title": "블로그 제목",
+    "pick": ["매칭키워드1", "매칭키워드2"],
+    "reason": "이 조합을 추천하는 이유 한 줄"
+  }
+]`
+
+interface AiSuggestion {
+  title: string
+  pick: string[]
+  reason: string
+}
+
+async function callClaude(system: string, message: string): Promise<string> {
+  const res = await fetch('/api/chat', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ system, message, stream: false }),
+  })
+  const data = await res.json()
+  return data.content?.[0]?.text || ''
+}
 
 // ── API helper ──
 
@@ -199,6 +238,10 @@ export default function WriterPanel({ keywords }: { keywords: Keyword[] }) {
   const [finalText, setFinalText] = useState('')
   const [streaming, setStreaming] = useState(false)
   const [copied, setCopied] = useState(false)
+  const [refinedText, setRefinedText] = useState('')
+  const [refineCount, setRefineCount] = useState(0)
+  const [aiSuggestions, setAiSuggestions] = useState<AiSuggestion[]>([])
+  const [aiLoading, setAiLoading] = useState(false)
   const [preset, setPreset] = useState<Preset>(DEFAULT_PRESET)
   const [presetDraft, setPresetDraft] = useState<Preset>(DEFAULT_PRESET)
   const [showSettings, setShowSettings] = useState(false)
@@ -284,9 +327,60 @@ export default function WriterPanel({ keywords }: { keywords: Keyword[] }) {
     setStep('picking')
   }
 
+  // AI 제목 추천
+  const handleAiSuggest = async () => {
+    if (keywords.length === 0) return
+    setAiLoading(true)
+    setAiSuggestions([])
+
+    const kwSummary = keywords.map(kw =>
+      `- ${kw.keyword} (${kw.agency}, ${kw.action_value})`
+    ).join('\n')
+
+    const today = new Date().toLocaleDateString('ko-KR', { year: 'numeric', month: 'long' })
+
+    try {
+      const raw = await callClaude(
+        SUGGEST_SYSTEM,
+        `오늘: ${today}\n\n키워드 ${keywords.length}건:\n${kwSummary}\n\n위 키워드를 분석하여 블로그 제목을 추천해주세요.`
+      )
+      let cleaned = raw.trim()
+      if (cleaned.startsWith('```')) {
+        cleaned = cleaned.replace(/^```(?:json)?\n?/, '').replace(/\n?```$/, '')
+      }
+      const parsed = JSON.parse(cleaned) as AiSuggestion[]
+      setAiSuggestions(parsed)
+    } catch {
+      setAiSuggestions([])
+    }
+    setAiLoading(false)
+  }
+
+  // AI 추천 제목 클릭 → 키워드 자동 매칭 & 선택
+  const handleAiSuggestionClick = (sg: AiSuggestion) => {
+    setSuggestedTitle(sg.title)
+    setDraft('')
+    setFeedback('')
+    setMergedText('')
+    setFinalText('')
+    setSelectedTopic(null)
+
+    // pick 키워드로 전체 keywords에서 매칭
+    const matched = keywords.filter(kw =>
+      sg.pick.some(p => kw.keyword.includes(p))
+    )
+    const kwList = matched.length >= 1 ? matched : keywords
+    setMatchedKeywords(kwList)
+
+    const autoSelected = new Set<number>()
+    kwList.forEach((_, i) => { if (i < matched.length) autoSelected.add(i) })
+    setPickedIndexes(autoSelected)
+    setStep('picking')
+  }
+
   // 2단계: 초안 생성
   const handleGenerateDraft = async () => {
-    if (!selectedTopic || pickedIndexes.size === 0) return
+    if (pickedIndexes.size === 0) return
     setStep('drafting')
     setStreaming(true)
     setDraft('')
@@ -301,7 +395,8 @@ export default function WriterPanel({ keywords }: { keywords: Keyword[] }) {
       ? `블로그 제목(H1)은 반드시 "${suggestedTitle}"을 그대로 사용하라. 바꾸지 마라.`
       : `블로그 제목(H1)은 검색량 높은 키워드 포함 30자 이내로 직접 작성하라.`
 
-    const userMsg = `주제: ${selectedTopic.label}
+    const topicLabel = selectedTopic?.label || suggestedTitle || '정부지원금 총정리'
+    const userMsg = `주제: ${topicLabel}
 ${titleInstruction}
 
 [출처 데이터] (${data.length}건)
@@ -372,7 +467,35 @@ ${sourceLines}
   const [copiedMerged, setCopiedMerged] = useState(false)
 
   const handleCopyMerged = () => copyPlainText(mergedText, setCopiedMerged)
-  const handleCopy = () => copyPlainText(finalText, setCopied)
+  const handleCopy = () => copyPlainText(refinedText || finalText, setCopied)
+
+  // 5단계: 품질 자동 개선
+  const REFINE_SYSTEM = `당신은 블로그 글 품질 검수 전문가입니다. 아래 글을 검수하고 직접 개선된 글을 출력하세요.
+
+검수 기준:
+1. 중복 표현/문장이 있으면 하나만 남기고 삭제
+2. ~습니다 체가 3회 이상이면 구어체로 교체
+3. 소제목이 "~란?", "~알아보기" 같은 뻔한 것이면 독창적으로 교체
+4. 문단이 5줄 이상이면 나눠라
+5. 첫 문장이 "안녕하세요"면 공감 후킹으로 교체
+6. SEO 구조(H1/H2/메타) 절대 유지
+7. 2000자 내외 유지, 불필요하면 줄여라
+8. 출처 링크 유지
+
+설명이나 검수 결과 없이, 개선된 글만 바로 출력하라.`
+
+  const handleRefine = async () => {
+    const textToRefine = refinedText || finalText
+    setStep('refining')
+    setStreaming(true)
+    setRefinedText('')
+
+    await streamClaude(REFINE_SYSTEM,
+      `다음 글을 검수하고 개선해줘:\n\n${textToRefine}`,
+      (text) => { setRefinedText(prev => prev + text); setTimeout(scrollToBottom, 10) },
+      () => { setStreaming(false); setRefineCount(prev => prev + 1); setStep('refined') },
+    )
+  }
 
   const handleReset = () => {
     setSelectedTopic(null)
@@ -383,10 +506,12 @@ ${sourceLines}
     setFeedback('')
     setMergedText('')
     setFinalText('')
+    setRefinedText('')
+    setRefineCount(0)
     setStep('topic')
   }
 
-  const afterMerge = step === 'merged' || step === 'polishing' || step === 'done'
+  const afterMerge = step === 'merged' || step === 'polishing' || step === 'done' || step === 'refining' || step === 'refined'
 
   // 주제별 매칭 키워드 수 계산 (생성 제안용)
   const topicSuggestions = TOPICS.map(topic => {
@@ -400,34 +525,73 @@ ${sourceLines}
 
         {/* ── 생성 제안 ── */}
         {step === 'topic' && keywords.length > 0 && (
-          <section className="mb-6 p-4 bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 rounded-lg">
-            <h3 className="text-sm font-semibold text-amber-800 mb-3">이런 글은 어때요?</h3>
-            <div className="space-y-4">
-              {topicSuggestions.map(t => (
-                <div key={t.id}>
-                  <button
-                    onClick={() => handleTopicSelect(t)}
-                    className="w-full flex items-center justify-between p-2 rounded-lg hover:bg-white/60 transition-colors text-left"
-                  >
-                    <span className="text-sm font-medium text-gray-800">{t.label}</span>
-                    <span className="text-xs text-amber-600 bg-amber-100 px-2 py-0.5 rounded-full shrink-0">{t.count}개 소스</span>
-                  </button>
-                  <div className="ml-3 mt-1 space-y-1">
-                    {t.suggestions.map((sg, i) => (
-                      <button
-                        key={i}
-                        onClick={() => handleSuggestionClick(t, sg)}
-                        className="w-full text-left px-2 py-1 text-xs text-gray-500 hover:text-amber-700 hover:bg-white/50 rounded transition-colors"
-                      >
-                        &rarr; {sg.title}
-                      </button>
-                    ))}
-                  </div>
+          <>
+            {/* AI 제목 추천 */}
+            <section className="mb-6 p-4 bg-gradient-to-r from-purple-50 to-blue-50 border border-purple-200 rounded-lg">
+              <div className="flex items-center justify-between mb-3">
+                <h3 className="text-sm font-semibold text-purple-800">AI 제목 추천</h3>
+                <button
+                  onClick={handleAiSuggest}
+                  disabled={aiLoading}
+                  className="px-3 py-1.5 text-xs font-medium bg-purple-500 text-white rounded-lg hover:bg-purple-600 disabled:opacity-50 transition-colors"
+                >
+                  {aiLoading ? '분석 중...' : aiSuggestions.length > 0 ? '다시 추천받기' : '키워드 분석해서 추천받기'}
+                </button>
+              </div>
+              {aiLoading && (
+                <div className="flex items-center gap-2 py-4">
+                  <div className="w-4 h-4 border-2 border-purple-500 border-t-transparent rounded-full animate-spin" />
+                  <span className="text-xs text-purple-600">{keywords.length}개 키워드 분석 중...</span>
                 </div>
-              ))}
-            </div>
-            <p className="text-xs text-gray-400 mt-3">제목을 클릭하면 해당 주제로 이동해요. 키워드를 다르게 골라 여러 편을 만들 수 있어요.</p>
-          </section>
+              )}
+              {aiSuggestions.length > 0 && (
+                <div className="space-y-2">
+                  {aiSuggestions.map((sg, i) => (
+                    <button
+                      key={i}
+                      onClick={() => handleAiSuggestionClick(sg)}
+                      className="w-full text-left p-2 rounded-lg hover:bg-white/60 transition-colors group"
+                    >
+                      <p className="text-sm text-gray-800 group-hover:text-purple-700">{sg.title}</p>
+                      <p className="text-xs text-gray-400 mt-0.5">{sg.reason}</p>
+                    </button>
+                  ))}
+                </div>
+              )}
+              {!aiLoading && aiSuggestions.length === 0 && (
+                <p className="text-xs text-gray-400">버튼을 누르면 수집된 {keywords.length}개 키워드를 AI가 분석해서 블로그 제목을 추천해요</p>
+              )}
+            </section>
+
+            {/* 기존 카테고리별 제안 */}
+            <section className="mb-6 p-4 bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 rounded-lg">
+              <h3 className="text-sm font-semibold text-amber-800 mb-3">카테고리별 제목</h3>
+              <div className="space-y-4">
+                {topicSuggestions.map(t => (
+                  <div key={t.id}>
+                    <button
+                      onClick={() => handleTopicSelect(t)}
+                      className="w-full flex items-center justify-between p-2 rounded-lg hover:bg-white/60 transition-colors text-left"
+                    >
+                      <span className="text-sm font-medium text-gray-800">{t.label}</span>
+                      <span className="text-xs text-amber-600 bg-amber-100 px-2 py-0.5 rounded-full shrink-0">{t.count}개 소스</span>
+                    </button>
+                    <div className="ml-3 mt-1 space-y-1">
+                      {t.suggestions.map((sg, i) => (
+                        <button
+                          key={i}
+                          onClick={() => handleSuggestionClick(t, sg)}
+                          className="w-full text-left px-2 py-1 text-xs text-gray-500 hover:text-amber-700 hover:bg-white/50 rounded transition-colors"
+                        >
+                          &rarr; {sg.title}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </section>
+          </>
         )}
 
         {/* ── 설정 패널 ── */}
@@ -513,7 +677,7 @@ ${sourceLines}
         </section>
 
         {/* ── 1.5단계: 키워드 선택 ── */}
-        {selectedTopic && (step === 'picking' || step !== 'topic') && (
+        {(selectedTopic || suggestedTitle) && (step === 'picking' || step !== 'topic') && (
           <section className="mb-8">
             <h2 className="text-sm font-semibold text-gray-500 mb-3 uppercase tracking-wide">
               키워드 선택 — {matchedKeywords.length}개 중 {pickedIndexes.size}개 선택
@@ -569,7 +733,7 @@ ${sourceLines}
         )}
 
         {/* ── 2단계: SEO 초안 생성 ── */}
-        {selectedTopic && step !== 'topic' && step !== 'picking' && (
+        {(selectedTopic || suggestedTitle) && step !== 'topic' && step !== 'picking' && (
           <section className="mb-8">
             <h2 className="text-sm font-semibold text-gray-500 mb-3 uppercase tracking-wide">2단계 — SEO 초안 생성</h2>
             {draft && (
@@ -636,20 +800,30 @@ ${sourceLines}
         )}
 
         {/* ── 4단계: 애드센스 코치 최종글 ── */}
-        {(step === 'polishing' || step === 'done') && (
+        {(step === 'polishing' || step === 'done' || step === 'refining' || step === 'refined') && (
           <section className="mb-8">
             <h2 className="text-sm font-semibold text-gray-500 mb-3 uppercase tracking-wide">4단계 — 애드센스 코치 최종글</h2>
             <div className="bg-white rounded-lg border-2 border-purple-200 p-6">
               <div className="flex items-center justify-between mb-3">
                 <span className="text-xs font-medium text-purple-700 bg-purple-50 px-2 py-1 rounded">애드센스 최적화</span>
                 {step === 'polishing' && streaming && <span className="text-xs text-purple-500 animate-pulse">다듬는 중...</span>}
-                {step === 'done' && (
-                  <button
-                    onClick={handleCopy}
-                    className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-colors ${copied ? 'bg-green-500 text-white' : 'bg-purple-500 text-white hover:bg-purple-600'}`}
-                  >
-                    {copied ? '복사 완료!' : '전체 복사'}
-                  </button>
+                {(step === 'done' || step === 'refining' || step === 'refined') && (
+                  <div className="flex gap-2">
+                    <button
+                      onClick={handleCopy}
+                      className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${copied && !refinedText ? 'bg-green-500 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}`}
+                    >
+                      {copied && !refinedText ? '복사됨!' : '복사'}
+                    </button>
+                    {step === 'done' && (
+                      <button
+                        onClick={handleRefine}
+                        className="px-3 py-1.5 rounded-lg text-xs font-medium bg-green-500 text-white hover:bg-green-600 transition-colors"
+                      >
+                        자동 품질 개선
+                      </button>
+                    )}
+                  </div>
                 )}
               </div>
               <article className={`prose ${step === 'polishing' && streaming ? 'streaming-cursor' : ''}`}>
@@ -659,8 +833,44 @@ ${sourceLines}
           </section>
         )}
 
+        {/* ── 5단계: 품질 자동 개선 ── */}
+        {(step === 'refining' || step === 'refined') && (
+          <section className="mb-8">
+            <h2 className="text-sm font-semibold text-gray-500 mb-3 uppercase tracking-wide">
+              5단계 — 품질 자동 개선 {refineCount > 0 && `(${refineCount}회)`}
+            </h2>
+            <div className="bg-white rounded-lg border-2 border-green-200 p-6">
+              <div className="flex items-center justify-between mb-3">
+                <span className="text-xs font-medium text-green-700 bg-green-50 px-2 py-1 rounded">개선된 글</span>
+                {step === 'refining' && streaming && <span className="text-xs text-green-500 animate-pulse">개선 중...</span>}
+                {step === 'refined' && (
+                  <div className="flex gap-2">
+                    <button
+                      onClick={handleCopy}
+                      className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${copied ? 'bg-green-500 text-white' : 'bg-green-600 text-white hover:bg-green-700'}`}
+                    >
+                      {copied ? '복사됨!' : '최종 복사'}
+                    </button>
+                    {refineCount < 3 && (
+                      <button
+                        onClick={handleRefine}
+                        className="px-3 py-1.5 rounded-lg text-xs font-medium bg-gray-200 text-gray-700 hover:bg-gray-300 transition-colors"
+                      >
+                        한번 더 개선 ({3 - refineCount}회 남음)
+                      </button>
+                    )}
+                  </div>
+                )}
+              </div>
+              <article className={`prose ${step === 'refining' && streaming ? 'streaming-cursor' : ''}`}>
+                <ReactMarkdown remarkPlugins={[remarkGfm]}>{refinedText}</ReactMarkdown>
+              </article>
+            </div>
+          </section>
+        )}
+
         {/* 다시 시작 */}
-        {step === 'done' && (
+        {(step === 'done' || step === 'refined') && (
           <div className="text-center pb-8">
             <button onClick={handleReset} className="px-4 py-2 text-sm text-gray-500 hover:text-gray-800 underline">다른 주제로 다시 시작</button>
           </div>
