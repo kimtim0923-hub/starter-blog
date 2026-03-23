@@ -1,0 +1,8 @@
+{
+  "framework": "nextjs",
+  "buildCommand": "node scripts/copy-posts.js && next build",
+  "routes": [
+    { "handle": "filesystem" },
+    { "src": "/(.*)", "dest": "/" }
+  ]
+}
