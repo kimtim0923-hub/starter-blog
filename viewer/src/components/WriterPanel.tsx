@@ -43,7 +43,7 @@ const ADSENSE_SYSTEM = `당신은 한국 블로그 글 작성 전문가입니다
 SEO 구조(H1/H2/메타/키워드 위치) 절대 바꾸지 마.
 수정 이유나 설명 없이 바로 글만 출력.`
 
-type Step = 'topic' | 'drafting' | 'feedback' | 'merging' | 'merged' | 'polishing' | 'done'
+type Step = 'topic' | 'picking' | 'drafting' | 'feedback' | 'merging' | 'merged' | 'polishing' | 'done'
 
 // ── API helper ──
 
@@ -103,6 +103,8 @@ async function streamClaude(
 export default function WriterPanel({ keywords }: { keywords: Keyword[] }) {
   const [step, setStep] = useState<Step>('topic')
   const [selectedTopic, setSelectedTopic] = useState<typeof TOPICS[0] | null>(null)
+  const [matchedKeywords, setMatchedKeywords] = useState<Keyword[]>([])
+  const [pickedIndexes, setPickedIndexes] = useState<Set<number>>(new Set())
   const [draft, setDraft] = useState('')
   const [feedback, setFeedback] = useState('')
   const [mergedText, setMergedText] = useState('')
@@ -123,20 +125,40 @@ export default function WriterPanel({ keywords }: { keywords: Keyword[] }) {
     setFeedback('')
     setMergedText('')
     setFinalText('')
-    setStep('topic')
+    // 주제에 맞는 키워드 필터링
+    const matched = keywords.filter(kw =>
+      topic.focus.some(f => kw.keyword.includes(f))
+    )
+    setMatchedKeywords(matched.length >= 3 ? matched : keywords)
+    setPickedIndexes(new Set())
+    setStep('picking')
+  }
+
+  const togglePick = (idx: number) => {
+    setPickedIndexes(prev => {
+      const next = new Set(prev)
+      if (next.has(idx)) next.delete(idx)
+      else next.add(idx)
+      return next
+    })
+  }
+
+  const selectAll = () => {
+    setPickedIndexes(new Set(matchedKeywords.map((_, i) => i)))
+  }
+
+  const deselectAll = () => {
+    setPickedIndexes(new Set())
   }
 
   // 2단계: 초안 생성
   const handleGenerateDraft = async () => {
-    if (!selectedTopic) return
+    if (!selectedTopic || pickedIndexes.size === 0) return
     setStep('drafting')
     setStreaming(true)
     setDraft('')
 
-    const relevant = keywords.filter(kw =>
-      selectedTopic.focus.some(f => kw.keyword.includes(f))
-    )
-    const data = relevant.length >= 3 ? relevant : keywords
+    const data = matchedKeywords.filter((_, i) => pickedIndexes.has(i))
 
     const sourceLines = data.map(kw =>
       `- 기관: ${kw.agency || '미상'} | 키워드: ${kw.keyword} | 날짜: ${kw.date || '미상'} | URL: ${kw.source_url || '없음'}`
@@ -194,6 +216,8 @@ ${sourceLines}
 
   const handleReset = () => {
     setSelectedTopic(null)
+    setMatchedKeywords([])
+    setPickedIndexes(new Set())
     setDraft('')
     setFeedback('')
     setMergedText('')
@@ -227,14 +251,61 @@ ${sourceLines}
           </div>
         </section>
 
+        {/* ── 1.5단계: 키워드 선택 ── */}
+        {selectedTopic && (step === 'picking' || step !== 'topic') && (
+          <section className="mb-8">
+            <h2 className="text-sm font-semibold text-gray-500 mb-3 uppercase tracking-wide">
+              키워드 선택 — {matchedKeywords.length}개 중 {pickedIndexes.size}개 선택
+            </h2>
+            {step === 'picking' && (
+              <>
+                <div className="flex gap-2 mb-3">
+                  <button onClick={selectAll} className="px-3 py-1 text-xs bg-gray-200 text-gray-700 rounded hover:bg-gray-300">전체 선택</button>
+                  <button onClick={deselectAll} className="px-3 py-1 text-xs bg-gray-200 text-gray-700 rounded hover:bg-gray-300">전체 해제</button>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-4">
+                  {matchedKeywords.map((kw, i) => (
+                    <button
+                      key={i}
+                      onClick={() => togglePick(i)}
+                      className={`p-3 rounded-lg text-left text-sm border transition-all ${
+                        pickedIndexes.has(i)
+                          ? 'bg-blue-50 border-blue-400 ring-1 ring-blue-400'
+                          : 'bg-white border-gray-200 hover:border-gray-300'
+                      }`}
+                    >
+                      <div className="flex items-start gap-2">
+                        <span className={`mt-0.5 w-4 h-4 rounded border flex items-center justify-center shrink-0 ${
+                          pickedIndexes.has(i) ? 'bg-blue-500 border-blue-500 text-white' : 'border-gray-300'
+                        }`}>
+                          {pickedIndexes.has(i) && <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>}
+                        </span>
+                        <div className="min-w-0">
+                          <p className="text-gray-800 leading-snug">{kw.keyword}</p>
+                          <p className="text-xs text-gray-400 mt-1">{kw.agency}{kw.source_url ? ' · 출처 있음' : ''}</p>
+                        </div>
+                      </div>
+                    </button>
+                  ))}
+                </div>
+                {pickedIndexes.size > 0 && (
+                  <button onClick={handleGenerateDraft} className="px-6 py-3 bg-blue-500 text-white rounded-lg font-medium hover:bg-blue-600 transition-colors">
+                    선택한 {pickedIndexes.size}개로 초안 생성
+                  </button>
+                )}
+              </>
+            )}
+            {step !== 'picking' && (
+              <p className="text-xs text-gray-400">{pickedIndexes.size}개 키워드 선택됨</p>
+            )}
+          </section>
+        )}
+
         {/* ── 2단계: SEO 초안 생성 ── */}
-        {selectedTopic && (
+        {selectedTopic && step !== 'topic' && step !== 'picking' && (
           <section className="mb-8">
             <h2 className="text-sm font-semibold text-gray-500 mb-3 uppercase tracking-wide">2단계 — SEO 초안 생성</h2>
-            {step === 'topic' && (
-              <button onClick={handleGenerateDraft} className="px-6 py-3 bg-blue-500 text-white rounded-lg font-medium hover:bg-blue-600 transition-colors">초안 보기</button>
-            )}
-            {(step !== 'topic' && draft) && (
+            {(step !== 'topic' && step !== 'picking' && draft) && (
               <div className="bg-white rounded-lg border border-gray-200 p-6">
                 <div className="flex items-center justify-between mb-3">
                   <span className="text-xs font-medium text-blue-600 bg-blue-50 px-2 py-1 rounded">SEO 초안</span>
