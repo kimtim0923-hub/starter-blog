@@ -3,8 +3,7 @@ viewer/node_modules/
 viewer/.next/
 viewer/out/
 
-# Generated posts (copied at build time)
-viewer/public/posts/*.md
+# Generated posts are committed to repo for Vercel deployment
 
 # Output data (large, regeneratable)
 output/raw_documents_*.json
