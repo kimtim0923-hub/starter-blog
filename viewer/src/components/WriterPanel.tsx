@@ -42,16 +42,7 @@ interface AnalysisResult {
   actionItems: string[]
 }
 
-// ── API helpers ──
-
-function getApiKey(): string | null {
-  if (typeof window === 'undefined') return null
-  return localStorage.getItem('anthropic_api_key')
-}
-
-function setApiKey(key: string) {
-  localStorage.setItem('anthropic_api_key', key)
-}
+// ── API helpers (server-side proxy) ──
 
 async function streamClaude(
   system: string,
@@ -59,29 +50,17 @@ async function streamClaude(
   onChunk: (text: string) => void,
   onDone: () => void,
 ) {
-  const apiKey = getApiKey()
-  if (!apiKey) {
-    onChunk('[ERROR] API 키가 설정되지 않았습니다. 상단에서 Anthropic API 키를 입력해주세요.')
+  const res = await fetch('/api/chat', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ system, message: userMessage, stream: true }),
+  })
+
+  if (!res.ok) {
+    onChunk('[ERROR] API 호출 실패. Vercel 환경변수 ANTHROPIC_API_KEY를 확인하세요.')
     onDone()
     return
   }
-
-  const res = await fetch('https://api.anthropic.com/v1/messages', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'x-api-key': apiKey,
-      'anthropic-version': '2023-06-01',
-      'anthropic-dangerous-direct-browser-access': 'true',
-    },
-    body: JSON.stringify({
-      model: 'claude-sonnet-4-20250514',
-      max_tokens: 6000,
-      system,
-      messages: [{ role: 'user', content: userMessage }],
-      stream: true,
-    }),
-  })
 
   const reader = res.body?.getReader()
   if (!reader) { onDone(); return }
@@ -111,23 +90,10 @@ async function streamClaude(
 }
 
 async function callClaude(system: string, userMessage: string): Promise<string> {
-  const apiKey = getApiKey()
-  if (!apiKey) return '{"error":"API 키가 설정되지 않았습니다."}'
-
-  const res = await fetch('https://api.anthropic.com/v1/messages', {
+  const res = await fetch('/api/chat', {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'x-api-key': apiKey,
-      'anthropic-version': '2023-06-01',
-      'anthropic-dangerous-direct-browser-access': 'true',
-    },
-    body: JSON.stringify({
-      model: 'claude-sonnet-4-20250514',
-      max_tokens: 4096,
-      system,
-      messages: [{ role: 'user', content: userMessage }],
-    }),
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ system, message: userMessage, stream: false }),
   })
 
   const data = await res.json()
@@ -170,15 +136,7 @@ export default function WriterPanel({ keywords }: { keywords: Keyword[] }) {
   const [streaming, setStreaming] = useState(false)
   const [copied, setCopied] = useState(false)
   const [copiedRewrite, setCopiedRewrite] = useState(false)
-  const [apiKeyInput, setApiKeyInput] = useState('')
-  const [apiKeySaved, setApiKeySaved] = useState(false)
   const contentRef = useRef<HTMLDivElement>(null)
-
-  useState(() => {
-    if (typeof window !== 'undefined' && getApiKey()) {
-      setApiKeySaved(true)
-    }
-  })
 
   const scrollToBottom = useCallback(() => {
     if (contentRef.current) {
@@ -291,36 +249,6 @@ export default function WriterPanel({ keywords }: { keywords: Keyword[] }) {
   return (
     <div ref={contentRef} className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8">
       <div className="max-w-3xl mx-auto">
-
-        {/* ── API 키 설정 ── */}
-        {!apiKeySaved && (
-          <section className="mb-8 p-4 bg-red-50 border border-red-200 rounded-lg">
-            <h2 className="text-sm font-semibold text-red-700 mb-2">Anthropic API 키 필요</h2>
-            <p className="text-xs text-red-600 mb-3">키는 브라우저 localStorage에만 저장되며 서버로 전송되지 않습니다.</p>
-            <div className="flex gap-2">
-              <input
-                type="password"
-                value={apiKeyInput}
-                onChange={e => setApiKeyInput(e.target.value)}
-                placeholder="sk-ant-api03-..."
-                className="flex-1 px-3 py-2 text-sm border border-red-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-400"
-              />
-              <button
-                onClick={() => { if (apiKeyInput.startsWith('sk-ant-')) { setApiKey(apiKeyInput); setApiKeySaved(true); setApiKeyInput('') } }}
-                disabled={!apiKeyInput.startsWith('sk-ant-')}
-                className="px-4 py-2 bg-red-500 text-white text-sm rounded-lg hover:bg-red-600 disabled:opacity-50"
-              >
-                저장
-              </button>
-            </div>
-          </section>
-        )}
-        {apiKeySaved && (
-          <div className="mb-4 flex items-center justify-between">
-            <span className="text-xs text-green-600">API 키 설정됨</span>
-            <button onClick={() => { localStorage.removeItem('anthropic_api_key'); setApiKeySaved(false) }} className="text-xs text-gray-400 hover:text-red-500">키 초기화</button>
-          </div>
-        )}
 
         {/* ── 1단계: 주제 선택 ── */}
         <section className="mb-8">
