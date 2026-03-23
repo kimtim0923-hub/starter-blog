@@ -1,0 +1,7 @@
+{
+  "buildCommand": "cd viewer && npm install && node scripts/copy-posts.js && npx next build",
+  "outputDirectory": "viewer/.next",
+  "installCommand": "cd viewer && npm install",
+  "framework": "nextjs",
+  "rootDirectory": "viewer"
+}
