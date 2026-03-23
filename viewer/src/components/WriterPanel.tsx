@@ -23,12 +23,11 @@ H2 소제목 검색 의도 키워드 포함.
 
 [필수] 출처 규칙 — 이 규칙을 어기면 안 된다:
 1. 위 출처 데이터를 근거로만 글을 써라.
-2. 각 지원금을 언급할 때 괄호 안에 출처 기관명을 반드시 표기하라. 예: (출처: 고용·취업)
-3. 글 맨 하단에 반드시 "## 참고 출처" 섹션을 만들어라.
-4. 참고 출처 섹션에 출처 데이터의 URL을 마크다운 링크로 전부 나열하라.
-   형식: - [키워드 제목](URL) — 기관명
-5. URL이 "없음"인 항목은 출처 목록에서 제외하라.
-6. 출처 데이터에 없는 정보는 절대 지어내지 마라.`
+2. 각 지원금 설명이 끝난 직후에 바로 출처 링크를 달아라.
+   형식: > 출처: [키워드 제목](URL) — 기관명
+3. 하단에 출처를 몰아서 쓰지 마라. 반드시 해당 지원금 설명 바로 아래에 붙여라.
+4. URL이 "없음"인 항목은 출처 표기를 생략하라.
+5. 출처 데이터에 없는 정보는 절대 지어내지 마라.`
 
 const MERGE_SYSTEM = `친한 선배 컨설턴트 톤. ~습니다 금지. ~해요 ~거든요 ~잖아요 구어체.
 첫 문장 공감 후킹. 숫자와 금액 포함. 2500자 이상.
@@ -143,23 +142,14 @@ export default function WriterPanel({ keywords }: { keywords: Keyword[] }) {
       `- 기관: ${kw.agency || '미상'} | 키워드: ${kw.keyword} | 날짜: ${kw.date || '미상'} | URL: ${kw.source_url || '없음'}`
     ).join('\n')
 
-    // 유효한 URL만 추출해서 참고출처 예시 생성
-    const refLines = data
-      .filter(kw => kw.source_url && kw.source_url !== '없음')
-      .map(kw => `- [${kw.keyword}](${kw.source_url}) — ${kw.agency || '미상'}`)
-      .join('\n')
-
     const userMsg = `주제: ${selectedTopic.label}
 
 [출처 데이터] (${data.length}건)
 ${sourceLines}
 
 위 출처 데이터를 근거로 총정리형 블로그 초안을 마크다운으로 작성해주세요.
-
-글 맨 하단에 반드시 아래 형식 그대로 "## 참고 출처" 섹션을 붙여라. URL을 절대 생략하지 마라:
-
-## 참고 출처
-${refLines}`
+각 지원금 설명 바로 아래에 출처 링크를 달아라. 하단에 몰아서 쓰지 마라.
+형식: > 출처: [키워드 제목](URL) — 기관명`
 
     await streamClaude(DRAFT_SYSTEM, userMsg,
       (text) => { setDraft(prev => prev + text); setTimeout(scrollToBottom, 10) },
